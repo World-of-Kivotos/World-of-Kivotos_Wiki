@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+/* 深色模式: 通过 <html class="dark"> 切换 */
+@custom-variant dark (&:is(.dark *));
+
+/*
+  设计 token (沿用 World of Kivotos 品牌: 中性灰阶 + 毛玻璃 + 粉彩空气底)。
+  公开站取与后台一致的调性, 但版式走编排/文档风, 数据用表格与内联 stat 条, 不堆大卡片。
+*/
+:root {
+  --radius: 0.75rem;
+
+  --background: hsl(0 0% 97%);
+  --foreground: hsl(0 0% 9%);
+  --card: hsl(0 0% 100% / 0.5);
+  --card-foreground: hsl(0 0% 9%);
+
+  --muted: hsl(0 0% 92%);
+  --muted-foreground: hsl(0 0% 42%);
+  --subtle: hsl(0 0% 100% / 0.55);
+
+  --primary: hsl(0 0% 9%);
+  --primary-foreground: hsl(0 0% 98%);
+
+  --success: hsl(142 60% 36%);
+  --warning: hsl(36 92% 42%);
+  --destructive: hsl(0 72% 48%);
+
+  --border: hsl(0 0% 0% / 0.1);
+  --border-strong: hsl(0 0% 0% / 0.16);
+  --ring: hsl(0 0% 20%);
+}
+
+.dark {
+  --background: hsl(0 0% 6%);
+  --foreground: hsl(0 0% 95%);
+  --card: hsl(0 0% 100% / 0.06);
+  --card-foreground: hsl(0 0% 95%);
+
+  --muted: hsl(0 0% 16%);
+  --muted-foreground: hsl(0 0% 62%);
+  --subtle: hsl(0 0% 100% / 0.06);
+
+  --primary: hsl(0 0% 95%);
+  --primary-foreground: hsl(0 0% 9%);
+
+  --success: hsl(142 55% 50%);
+  --warning: hsl(36 90% 58%);
+  --destructive: hsl(0 63% 56%);
+
+  --border: hsl(0 0% 100% / 0.1);
+  --border-strong: hsl(0 0% 100% / 0.18);
+  --ring: hsl(0 0% 70%);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle: var(--subtle);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  --font-sans: ui-sans-serif, system-ui, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  html,
+  body,
+  #root {
+    min-height: 100vh;
+  }
+  body {
+    margin: 0;
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: hsl(0 0% 97%);
+    background-image:
+      radial-gradient(ellipse 80% 55% at 0% 0%, hsl(350 80% 90% / 0.55), transparent 50%),
+      radial-gradient(ellipse 65% 55% at 100% 0%, hsl(265 75% 90% / 0.5), transparent 50%),
+      radial-gradient(ellipse 80% 65% at 100% 100%, hsl(210 85% 88% / 0.5), transparent 55%),
+      radial-gradient(ellipse 65% 55% at 0% 100%, hsl(165 65% 90% / 0.4), transparent 50%);
+    background-attachment: fixed;
+  }
+  .dark body {
+    background-color: hsl(0 0% 6%);
+    background-image:
+      radial-gradient(ellipse 80% 55% at 0% 0%, hsl(350 50% 30% / 0.28), transparent 55%),
+      radial-gradient(ellipse 65% 55% at 100% 0%, hsl(265 55% 32% / 0.3), transparent 55%),
+      radial-gradient(ellipse 80% 65% at 100% 100%, hsl(210 60% 30% / 0.28), transparent 55%);
+  }
+  ::selection {
+    background: hsl(0 0% 9% / 0.85);
+    color: hsl(0 0% 98%);
+  }
+  .dark ::selection {
+    background: hsl(0 0% 95%);
+    color: hsl(0 0% 9%);
+  }
+}
+
+.glass {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(0 0% 50% / 0.4) transparent;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: hsl(0 0% 50% / 0.35);
+  border-radius: 4px;
+}
