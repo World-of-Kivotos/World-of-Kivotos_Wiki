@@ -1,4 +1,4 @@
-import { JOBS, DIMENSIONS } from '@/content/wiki'
+import { JOBS, DIMENSIONS, CHAMPION_EFFECTS } from '@/content/wiki'
 import { JobList } from '@/components/wiki/JobList'
 import { LinkRow } from '@/components/wiki/LinkRow'
 
@@ -34,7 +34,7 @@ export function WikiIndexPage() {
               to="/wiki/champions"
               name="精英怪总览"
               en="Champion"
-              desc="星级与词条、减伤与血池机制, 19 条已实现词条逐一详解"
+              desc={`星级与词条、减伤与血池机制, ${CHAMPION_EFFECTS.length} 条已实现词条逐一详解`}
             />
           </li>
         </ul>

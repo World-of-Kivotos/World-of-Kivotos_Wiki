@@ -19,7 +19,7 @@ import { mining } from './dimensions/mining'
 
 export { ECONOMY } from './economy'
 
-/** 精英怪: 总览(系统机制) + 19 条已实现词条(一效果一页)。数值忠于 mod 源码。 */
+/** 精英怪: 总览(系统机制) + 全部已实现词条(一效果一页, 数量以 CHAMPION_EFFECTS 为准)。数值忠于 mod 源码。 */
 export { CHAMPION_INFO, CHAMPION_EFFECTS } from './champions'
 
 /** 职业总表(顺序即首页/侧栏展示顺序): 生产职在前, 战斗辅助职在后。 */

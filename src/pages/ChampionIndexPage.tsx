@@ -28,10 +28,11 @@ function EffectGroup({ pool, effects }: { pool: string; effects: ChampionEffect[
 }
 
 export function ChampionIndexPage() {
+  const hasDummies = CHAMPION_INFO.dummies.length > 0
   const toc: TocItem[] = [
     ...CHAMPION_INFO.sections.map((s, i) => ({ id: `sec-${i}`, label: s.heading })),
     { id: 'effects', label: '词条一览' },
-    { id: 'dummies', label: '尚未生效' },
+    ...(hasDummies ? [{ id: 'dummies', label: '尚未生效' }] : []),
   ]
 
   return (
@@ -58,7 +59,7 @@ export function ChampionIndexPage() {
 
         <section className="space-y-5">
           <h2 id="effects" className="scroll-mt-24 text-lg font-semibold tracking-tight">
-            词条一览(24 条已实现)
+            词条一览(35 条全实现)
           </h2>
           <p className="max-w-[72ch] text-sm leading-relaxed text-muted-foreground">
             以下每条都能在游戏里刷出并生效, 点进去看触发、结算与各品质数值。反震目前是半成品(只有单体反伤)。
@@ -70,18 +71,20 @@ export function ChampionIndexPage() {
           </div>
         </section>
 
-        <section className="space-y-4">
-          <h2 id="dummies" className="scroll-mt-24 text-lg font-semibold tracking-tight">
-            尚未生效 / 未来内容
-          </h2>
-          <p className="max-w-[72ch] text-sm leading-relaxed text-muted-foreground">{CHAMPION_INFO.dummyIntro}</p>
-          <DataTable
-            data={{
-              columns: ['词条', '代码名', '所属池', '说明'],
-              rows: CHAMPION_INFO.dummies.map((d) => [d.name, d.en, `${d.pool}池`, d.note]),
-            }}
-          />
-        </section>
+        {hasDummies && (
+          <section className="space-y-4">
+            <h2 id="dummies" className="scroll-mt-24 text-lg font-semibold tracking-tight">
+              尚未生效 / 未来内容
+            </h2>
+            <p className="max-w-[72ch] text-sm leading-relaxed text-muted-foreground">{CHAMPION_INFO.dummyIntro}</p>
+            <DataTable
+              data={{
+                columns: ['词条', '代码名', '所属池', '说明'],
+                rows: CHAMPION_INFO.dummies.map((d) => [d.name, d.en, `${d.pool}池`, d.note]),
+              }}
+            />
+          </section>
+        )}
       </article>
     </ArticleToc>
   )
