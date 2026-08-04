@@ -1,8 +1,9 @@
 import type { Section } from '@/content/types'
 import { DataTable } from './DataTable'
+import { SlotGrid } from './SlotGrid'
 import { Note } from './Note'
 
-/** 内容小节: 标题 + 正文 + 有序步骤 + 圆点要点 + 表格 + 旁注。复用于职业页与经济页。 */
+/** 内容小节: 标题 + 正文 + 有序步骤 + 圆点要点 + 表格 + 菜单槽位图 + 旁注。复用于职业页/经济页/领地页。 */
 export function ContentSection({
   id,
   heading,
@@ -10,6 +11,7 @@ export function ContentSection({
   steps,
   bullets,
   table,
+  menu,
   note,
 }: Section & { id?: string }) {
   return (
@@ -48,6 +50,7 @@ export function ContentSection({
       )}
 
       {table && <DataTable data={table} />}
+      {menu && <SlotGrid menu={menu} />}
       {note && <Note>{note}</Note>}
     </section>
   )

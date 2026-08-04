@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import { JOBS, DIMENSIONS, CHAMPION_EFFECTS } from '@/content/wiki'
+import { JOBS, DIMENSIONS, CHAMPION_EFFECTS, LAND_DOCS, LAND_GROUPS } from '@/content/wiki'
 import { cn } from '@/lib/utils'
 import { NavGroup } from './NavGroup'
 
@@ -40,34 +40,48 @@ export function WikiLayout() {
     return order.map((pool) => ({ pool, effects: byPool.get(pool)! }))
   }, [])
 
-  // 当前路由命中的词条所属池: 仅用于自动展开该组; 具体某项的高亮由 NavLink isActive 负责。
-  const activePool = useMemo(() => {
-    const m = pathname.match(/^\/wiki\/champions\/(.+)$/)
-    if (!m) return null
-    return CHAMPION_EFFECTS.find((e) => e.id === m[1])?.pool ?? null
+  // 领地文档按 group 归组; 组的显示顺序由 LAND_GROUPS 固定(上手在前, 服主在后), 不随数据文件里的排列漂移。
+  const landGroups = useMemo(
+    () => LAND_GROUPS.map((group) => ({ group, docs: LAND_DOCS.filter((d) => d.group === group) })),
+    [],
+  )
+
+  // 当前路由命中的可折叠组, 组 key 带板块前缀避免两个板块的同名组互相牵连; 仅用于自动展开, 高亮由 NavLink isActive 负责。
+  const activeGroup = useMemo(() => {
+    const champion = pathname.match(/^\/wiki\/champions\/(.+)$/)
+    if (champion) {
+      const pool = CHAMPION_EFFECTS.find((e) => e.id === champion[1])?.pool
+      return pool ? `champion:${pool}` : null
+    }
+    const land = pathname.match(/^\/wiki\/land\/(.+)$/)
+    if (land) {
+      const group = LAND_DOCS.find((d) => d.id === land[1])?.group
+      return group ? `land:${group}` : null
+    }
+    return null
   }, [pathname])
 
   // 展开态提升到常驻的布局层, 本次会话内保持手动展开的组; 初始只展开命中项所在的组。
-  const [openPools, setOpenPools] = useState<Set<string>>(() =>
-    activePool ? new Set([activePool]) : new Set(),
+  const [openGroups, setOpenGroups] = useState<Set<string>>(() =>
+    activeGroup ? new Set([activeGroup]) : new Set(),
   )
 
   // 路由切到别的组时自动展开新命中的组, 但不自动收起用户已手动展开过的组。
   useEffect(() => {
-    if (!activePool) return
-    setOpenPools((prev) => {
-      if (prev.has(activePool)) return prev
+    if (!activeGroup) return
+    setOpenGroups((prev) => {
+      if (prev.has(activeGroup)) return prev
       const next = new Set(prev)
-      next.add(activePool)
+      next.add(activeGroup)
       return next
     })
-  }, [activePool])
+  }, [activeGroup])
 
-  const togglePool = (pool: string) =>
-    setOpenPools((prev) => {
+  const toggleGroup = (key: string) =>
+    setOpenGroups((prev) => {
       const next = new Set(prev)
-      if (next.has(pool)) next.delete(pool)
-      else next.add(pool)
+      if (next.has(key)) next.delete(key)
+      else next.add(key)
       return next
     })
 
@@ -106,13 +120,39 @@ export function WikiLayout() {
                 key={pool}
                 label={`${pool}池`}
                 count={effects.length}
-                open={openPools.has(pool)}
-                onToggle={() => togglePool(pool)}
+                open={openGroups.has(`champion:${pool}`)}
+                onToggle={() => toggleGroup(`champion:${pool}`)}
               >
                 {effects.map((e) => (
                   <li key={e.id}>
                     <NavLink to={`/wiki/champions/${e.id}`} className={itemCls} title={e.en}>
                       {e.name}
+                    </NavLink>
+                  </li>
+                ))}
+              </NavGroup>
+            ))}
+          </ul>
+
+          <GroupLabel>领地</GroupLabel>
+          <ul className="space-y-0.5">
+            <li>
+              <NavLink to="/wiki/land" end className={itemCls}>
+                领地总览
+              </NavLink>
+            </li>
+            {landGroups.map(({ group, docs }) => (
+              <NavGroup
+                key={group}
+                label={group}
+                count={docs.length}
+                open={openGroups.has(`land:${group}`)}
+                onToggle={() => toggleGroup(`land:${group}`)}
+              >
+                {docs.map((d) => (
+                  <li key={d.id}>
+                    <NavLink to={`/wiki/land/${d.id}`} className={itemCls} title={d.en}>
+                      {d.name}
                     </NavLink>
                   </li>
                 ))}

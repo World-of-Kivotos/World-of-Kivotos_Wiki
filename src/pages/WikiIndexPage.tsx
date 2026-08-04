@@ -1,4 +1,4 @@
-import { JOBS, DIMENSIONS, CHAMPION_EFFECTS } from '@/content/wiki'
+import { JOBS, DIMENSIONS, CHAMPION_EFFECTS, LAND_DOCS } from '@/content/wiki'
 import { JobList } from '@/components/wiki/JobList'
 import { LinkRow } from '@/components/wiki/LinkRow'
 
@@ -16,8 +16,8 @@ export function WikiIndexPage() {
       <header>
         <h1 className="text-2xl font-semibold tracking-tight">Wiki 概览</h1>
         <p className="mt-2 max-w-[64ch] text-[15px] leading-relaxed text-muted-foreground">
-          World of Kivotos 的玩法说明手册。职业讲每个职业自己的玩法与技能;经济讲货币、收入与玩家间交易;
-          维度讲各个玩法世界本身的机制。内容随版本更新。
+          World of Kivotos 的玩法说明手册。职业讲每个职业自己的玩法与技能;领地讲怎么圈地、怎么防熊;
+          经济讲货币、收入与玩家间交易;维度讲各个玩法世界本身的机制。内容随版本更新。
         </p>
       </header>
 
@@ -35,6 +35,20 @@ export function WikiIndexPage() {
               name="精英怪总览"
               en="Champion"
               desc={`星级与词条、减伤与血池机制, ${CHAMPION_EFFECTS.length} 条已实现词条逐一详解`}
+            />
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <GroupHead>领地</GroupHead>
+        <ul className="divide-y divide-border">
+          <li>
+            <LinkRow
+              to="/wiki/land"
+              name="领地总览"
+              en="Flan"
+              desc={`圈地、防熊与权限授权, ${LAND_DOCS.length} 篇文档覆盖命令、箱子菜单与全部权限项`}
             />
           </li>
         </ul>
