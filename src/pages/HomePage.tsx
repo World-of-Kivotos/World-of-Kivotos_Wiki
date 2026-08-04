@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { JOBS, DIMENSIONS, CHAMPION_EFFECTS, LAND_DOCS } from '@/content/wiki'
 import { LinkRow } from '@/components/wiki/LinkRow'
-import { Reveal, staggerDelay } from '@/components/ui/Reveal'
+import { Reveal } from '@/components/ui/Reveal'
+import { staggerDelay } from '@/lib/utils'
 
 /** 栏头: 小标签 + 标题 + 右侧计数, 三栏共用。 */
 function ColumnHead({ label, title, right }: { label: string; title: string; right?: string }) {

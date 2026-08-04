@@ -19,16 +19,12 @@ export function Reveal({
   stagger?: boolean
 }) {
   const ref = useRef<HTMLDivElement>(null)
-  const [shown, setShown] = useState(false)
+  // 观察器缺失(老浏览器/测试环境)时直接以显示态初始化, 绝不能让内容卡在 opacity:0。
+  const [shown, setShown] = useState(() => typeof IntersectionObserver === 'undefined')
 
   useEffect(() => {
     const el = ref.current
-    if (!el) return
-    // 观察器缺失(老浏览器/测试环境)时直接显示, 绝不能让内容卡在 opacity:0。
-    if (typeof IntersectionObserver === 'undefined') {
-      setShown(true)
-      return
-    }
+    if (!el || typeof IntersectionObserver === 'undefined') return
     const io = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
@@ -52,9 +48,4 @@ export function Reveal({
       {children}
     </div>
   )
-}
-
-/** 给 stagger 列表项算逐项延迟的内联样式, 省得每处手写 as CSSProperties。 */
-export function staggerDelay(index: number, step = 45): CSSProperties {
-  return { '--d': `${index * step}ms` } as CSSProperties
 }

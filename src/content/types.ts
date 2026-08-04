@@ -52,6 +52,8 @@ export interface Section {
   table?: WikiTable
   /** 箱子菜单槽位图 (领地板块用) */
   menu?: MenuLayout
+  /** 等宽代码块 (数据包模板 / 配置片段这类需要照抄的内容) */
+  code?: { caption?: string; text: string }
   /** 一句旁注 (左竖线, 非色块卡) */
   note?: string
 }

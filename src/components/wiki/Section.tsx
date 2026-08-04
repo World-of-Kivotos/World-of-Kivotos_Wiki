@@ -12,6 +12,7 @@ export function ContentSection({
   bullets,
   table,
   menu,
+  code,
   note,
 }: Section & { id?: string }) {
   return (
@@ -51,6 +52,18 @@ export function ContentSection({
 
       {table && <DataTable data={table} />}
       {menu && <SlotGrid menu={menu} />}
+
+      {code && (
+        <figure className="my-2">
+          <pre className="scrollbar-thin overflow-x-auto rounded-lg border border-border bg-card p-4 font-mono text-[13px] leading-relaxed text-foreground/90">
+            {code.text}
+          </pre>
+          {code.caption && (
+            <figcaption className="mt-2 text-xs text-muted-foreground">{code.caption}</figcaption>
+          )}
+        </figure>
+      )}
+
       {note && <Note>{note}</Note>}
     </section>
   )

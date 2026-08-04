@@ -6,11 +6,30 @@
 import type { LandDoc } from './types'
 import { gettingStarted } from './land/getting-started'
 import { bestPractices } from './land/best-practices'
+import { groups } from './land/groups'
+import { subclaims } from './land/subclaims'
+import { commands } from './land/commands'
+import { menus } from './land/menus'
+import { permissions } from './land/permissions'
+import { admin } from './land/admin'
+import { compat } from './land/compat'
+import { localization } from './land/localization'
 
 export { LAND_INFO } from './land/overview'
 
 /** 文档总表(顺序即侧栏与总览页内的展示顺序)。 */
-export const LAND_DOCS: LandDoc[] = [gettingStarted, bestPractices]
+export const LAND_DOCS: LandDoc[] = [
+  gettingStarted,
+  bestPractices,
+  groups,
+  subclaims,
+  commands,
+  menus,
+  permissions,
+  admin,
+  compat,
+  localization,
+]
 
 /** 侧栏折叠组的固定顺序; 只保留当前真有文档的组, 避免出现空组。 */
 const GROUP_ORDER = ['上手', '参考', '服主']
