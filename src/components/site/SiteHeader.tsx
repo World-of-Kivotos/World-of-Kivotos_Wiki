@@ -12,8 +12,8 @@ export function SiteHeader() {
   return (
     <header className="glass sticky top-0 z-30 border-b border-border bg-card">
       <div className="mx-auto flex h-16 w-full max-w-[1680px] items-center gap-6 px-5 sm:px-8 lg:px-12 2xl:px-16">
-        <Link to="/" className="flex items-center gap-2.5">
-          <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+        <Link to="/" className="group flex items-center gap-2.5">
+          <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-transform duration-300 ease-spring group-hover:-rotate-12 group-hover:scale-110">
             <Pickaxe className="size-[18px]" />
           </span>
           <span className="flex flex-col leading-none">
