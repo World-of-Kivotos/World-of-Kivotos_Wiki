@@ -35,7 +35,7 @@ export function NavGroup({
         <ChevronRight
           aria-hidden
           className={cn(
-            'size-3.5 shrink-0 text-muted-foreground/50 transition-transform',
+            'size-3.5 shrink-0 text-muted-foreground/50 transition-transform duration-300 ease-spring',
             open && 'rotate-90',
           )}
         />

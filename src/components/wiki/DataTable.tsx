@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 /** 干净表格: 数值列右对齐 + 等宽, 细线分隔, 替代成片的统计卡。 */
 export function DataTable({ data }: { data: WikiTable }) {
   const numeric = new Set(data.numericCols ?? [])
+  const mono = new Set(data.monoCols ?? [])
   return (
     <figure className="my-2">
       <div className="overflow-x-auto rounded-lg border border-border bg-card">
@@ -36,6 +37,7 @@ export function DataTable({ data }: { data: WikiTable }) {
                       'px-4 py-2.5',
                       ci === 0 && 'font-medium text-foreground',
                       numeric.has(ci) && 'text-right font-mono tabular-nums',
+                      mono.has(ci) && 'whitespace-nowrap font-mono text-[13px]',
                     )}
                   >
                     {cell}

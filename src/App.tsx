@@ -14,6 +14,8 @@ import { EconomyPage } from '@/pages/EconomyPage'
 import { DimensionPage } from '@/pages/DimensionPage'
 import { ChampionIndexPage } from '@/pages/ChampionIndexPage'
 import { ChampionEffectPage } from '@/pages/ChampionEffectPage'
+import { LandIndexPage } from '@/pages/LandIndexPage'
+import { LandDocPage } from '@/pages/LandDocPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 
 function RootLayout() {
@@ -44,6 +46,8 @@ const router = createBrowserRouter([
           { path: 'dimensions/:dimId', element: <DimensionPage /> },
           { path: 'champions', element: <ChampionIndexPage /> },
           { path: 'champions/:effectId', element: <ChampionEffectPage /> },
+          { path: 'land', element: <LandIndexPage /> },
+          { path: 'land/:docId', element: <LandDocPage /> },
         ],
       },
       { path: '*', element: <NotFoundPage /> },

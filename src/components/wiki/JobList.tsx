@@ -21,7 +21,7 @@ export function JobList({ jobs }: { jobs: Job[] }) {
             <span className="hidden shrink-0 font-mono text-xs text-muted-foreground sm:inline">
               {j.difficulty}
             </span>
-            <ArrowRight className="size-4 shrink-0 text-muted-foreground/40 transition-transform group-hover:translate-x-0.5 group-hover:text-foreground" />
+            <ArrowRight className="size-4 shrink-0 text-muted-foreground/40 transition-transform duration-300 ease-spring group-hover:translate-x-1 group-hover:text-foreground" />
           </Link>
         </li>
       ))}
