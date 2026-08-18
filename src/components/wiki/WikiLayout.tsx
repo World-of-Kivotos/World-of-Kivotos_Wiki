@@ -69,6 +69,8 @@ export function WikiLayout() {
   // 路由切到别的组时自动展开新命中的组, 但不自动收起用户已手动展开过的组。
   useEffect(() => {
     if (!activeGroup) return
+    // 路由变化是外部状态事件，需要把命中的组并入用户展开集合。
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpenGroups((prev) => {
       if (prev.has(activeGroup)) return prev
       const next = new Set(prev)
@@ -182,6 +184,15 @@ export function WikiLayout() {
           <p className="px-2.5 pt-1.5 text-[11px] leading-snug text-muted-foreground/60">
             更多维度陆续开放
           </p>
+
+          <GroupLabel>临时审计</GroupLabel>
+          <ul className="space-y-0.5">
+            <li>
+              <NavLink to="/wiki/audit" end className={itemCls}>
+                main 功能审计
+              </NavLink>
+            </li>
+          </ul>
         </nav>
       </aside>
 

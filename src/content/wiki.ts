@@ -25,6 +25,9 @@ export { CHAMPION_INFO, CHAMPION_EFFECTS } from './champions'
 /** 领地(Flan mod): 总览 + 各主题文档(上手/参考/服主三组)。 */
 export { LAND_INFO, LAND_DOCS, LAND_GROUPS } from './land'
 
+/** 临时 main 分支审计区，与正式玩家文档数据隔离。 */
+export { AUDIT_INFO, AUDIT_DOCS, AUDIT_GROUPS } from './audit'
+
 /** 职业总表(顺序即首页/侧栏展示顺序): 生产职在前, 战斗辅助职在后。 */
 export const JOBS: Job[] = [miner, farmer, engineer, tarot, chef, munitions, agent]
 

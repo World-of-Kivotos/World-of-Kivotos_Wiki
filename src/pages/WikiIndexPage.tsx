@@ -1,4 +1,4 @@
-import { JOBS, DIMENSIONS, CHAMPION_EFFECTS, LAND_DOCS } from '@/content/wiki'
+import { AUDIT_DOCS, JOBS, DIMENSIONS, CHAMPION_EFFECTS, LAND_DOCS } from '@/content/wiki'
 import { JobList } from '@/components/wiki/JobList'
 import { LinkRow } from '@/components/wiki/LinkRow'
 
@@ -73,6 +73,20 @@ export function WikiIndexPage() {
           ))}
         </ul>
         <p className="mt-3 text-sm text-muted-foreground">更多维度陆续开放。</p>
+      </section>
+
+      <section>
+        <GroupHead>临时审计</GroupHead>
+        <ul className="divide-y divide-border">
+          <li>
+            <LinkRow
+              to="/wiki/audit"
+              name="main 功能审计"
+              en="Temporary"
+              desc={`1.0.19 生产 JAR 的功能、职业、注册物与联动核对，共 ${AUDIT_DOCS.length} 篇专题文档`}
+            />
+          </li>
+        </ul>
       </section>
     </div>
   )

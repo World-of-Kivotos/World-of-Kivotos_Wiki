@@ -154,3 +154,22 @@ export interface ChampionInfo {
   dummyIntro: string
   dummies: ChampionDummy[]
 }
+
+/** main 分支只读审计的一篇临时文档；与正式玩家 Wiki 内容隔离。 */
+export interface AuditDoc {
+  id: string
+  name: string
+  en: string
+  group: string
+  tagline: string
+  facts?: Fact[]
+  intro: string
+  sections: Section[]
+}
+
+/** 临时审计区总览。 */
+export interface AuditInfo {
+  facts: Fact[]
+  intro: string
+  sections: Section[]
+}

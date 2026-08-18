@@ -16,6 +16,8 @@ import { ChampionIndexPage } from '@/pages/ChampionIndexPage'
 import { ChampionEffectPage } from '@/pages/ChampionEffectPage'
 import { LandIndexPage } from '@/pages/LandIndexPage'
 import { LandDocPage } from '@/pages/LandDocPage'
+import { AuditIndexPage } from '@/pages/AuditIndexPage'
+import { AuditDocPage } from '@/pages/AuditDocPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 
 function RootLayout() {
@@ -48,6 +50,8 @@ const router = createBrowserRouter([
           { path: 'champions/:effectId', element: <ChampionEffectPage /> },
           { path: 'land', element: <LandIndexPage /> },
           { path: 'land/:docId', element: <LandDocPage /> },
+          { path: 'audit', element: <AuditIndexPage /> },
+          { path: 'audit/:docId', element: <AuditDocPage /> },
         ],
       },
       { path: '*', element: <NotFoundPage /> },
