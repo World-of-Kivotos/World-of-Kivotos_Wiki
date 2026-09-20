@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import { DIMENSIONS } from '@/content/wiki'
+import { DIMENSIONS } from '@/content'
 import { StatStrip } from '@/components/wiki/StatStrip'
 import { ContentSection } from '@/components/wiki/Section'
 import { ArticleToc, type TocItem } from '@/components/wiki/ArticleToc'

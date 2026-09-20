@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import { JOBS, type GrowthStep } from '@/content/wiki'
+import { JOBS, type GrowthStep } from '@/content'
 import { Tag } from '@/components/ui/Tag'
 import { StatStrip } from '@/components/wiki/StatStrip'
 import { ContentSection } from '@/components/wiki/Section'

@@ -1,4 +1,4 @@
-import { LAND_INFO, LAND_DOCS, LAND_GROUPS, type LandDoc } from '@/content/wiki'
+import { LAND_INFO, LAND_DOCS, LAND_GROUPS, type LandDoc } from '@/content'
 import { StatStrip } from '@/components/wiki/StatStrip'
 import { ContentSection } from '@/components/wiki/Section'
 import { LinkRow } from '@/components/wiki/LinkRow'
@@ -35,8 +35,8 @@ export function LandIndexPage() {
 
         <header className="space-y-3.5">
           <div className="flex flex-wrap items-baseline gap-3">
-            <h1 className="text-3xl font-semibold tracking-tight">领地总览</h1>
-            <span className="font-mono text-sm text-muted-foreground">Flan</span>
+            <h1 className="text-3xl font-semibold tracking-tight">{LAND_INFO.name}</h1>
+            <span className="font-mono text-sm text-muted-foreground">{LAND_INFO.en}</span>
           </div>
         </header>
 

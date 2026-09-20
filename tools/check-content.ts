@@ -17,7 +17,8 @@ function walkMarkdown(dir: string): string[] {
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry)
     if (statSync(full).isDirectory()) out.push(...walkMarkdown(full))
-    else if (entry.endsWith('.md')) out.push(full)
+    // README.md 是写作规范本身, 不是内容; 它也不被任何 glob 导入。
+    else if (entry.endsWith('.md') && entry !== 'README.md') out.push(full)
   }
   return out
 }

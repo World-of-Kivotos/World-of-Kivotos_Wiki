@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
-import type { Job } from '@/content/wiki'
+import type { Job } from '@/content'
 import { Tag } from '@/components/ui/Tag'
 
 /** 职业列表: divide-y 行式排布 (非卡片网格), 名称 + 英文 + 分类 + 一句话 + 难度。 */

@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import { AUDIT_DOCS } from '@/content/wiki'
+import { AUDIT_DOCS } from '@/content'
 import { ArticleToc, type TocItem } from '@/components/wiki/ArticleToc'
 import { ContentSection } from '@/components/wiki/Section'
 import { StatStrip } from '@/components/wiki/StatStrip'

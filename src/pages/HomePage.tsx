@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
-import { JOBS, DIMENSIONS, CHAMPION_EFFECTS, LAND_DOCS } from '@/content/wiki'
+import { JOBS, DIMENSIONS, CHAMPION_EFFECTS, LAND_DOCS } from '@/content'
 import { LinkRow } from '@/components/wiki/LinkRow'
 import { Reveal } from '@/components/ui/Reveal'
 import { staggerDelay } from '@/lib/utils'

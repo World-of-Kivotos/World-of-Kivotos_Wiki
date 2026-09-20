@@ -1,4 +1,4 @@
-import type { Fact } from '@/content/wiki'
+import type { Fact } from '@/content'
 
 /**
  * 内联 stat 条 —— 刻意不用"一个数字一张大卡片"。

@@ -1,4 +1,4 @@
-import { ECONOMY } from '@/content/wiki'
+import { ECONOMY } from '@/content'
 import { ContentSection } from '@/components/wiki/Section'
 import { ArticleToc, type TocItem } from '@/components/wiki/ArticleToc'
 
@@ -13,7 +13,7 @@ export function EconomyPage() {
         </nav>
 
         <header className="space-y-3">
-          <h1 className="text-3xl font-semibold tracking-tight">经济总览</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">{ECONOMY.name}</h1>
           <p className="max-w-[72ch] text-base leading-relaxed text-muted-foreground">{ECONOMY.intro}</p>
         </header>
 

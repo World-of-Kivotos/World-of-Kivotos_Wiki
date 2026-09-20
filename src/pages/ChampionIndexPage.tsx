@@ -1,10 +1,21 @@
-import { CHAMPION_INFO, CHAMPION_EFFECTS, type ChampionEffect } from '@/content/wiki'
+import {
+  CHAMPION_INFO,
+  CHAMPION_EFFECTS,
+  CHAMPION_POOL_GROUPS,
+  type ChampionEffect,
+} from '@/content'
 import { ContentSection } from '@/components/wiki/Section'
 import { DataTable } from '@/components/wiki/DataTable'
 import { LinkRow } from '@/components/wiki/LinkRow'
 import { ArticleToc, type TocItem } from '@/components/wiki/ArticleToc'
 
-const POOL_ORDER = ['生存', '战斗', '机动', '技能'] as const
+/** 半成品词条的说明句: 从 status/statusNote 派生, 免得词条增减时这行散文悄悄说谎。 */
+function partialNote(effects: ChampionEffect[]): string {
+  return effects
+    .filter((e) => e.status === '半成品')
+    .map((e) => `${e.name}目前是半成品(${e.statusNote})。`)
+    .join('')
+}
 
 function EffectGroup({ pool, effects }: { pool: string; effects: ChampionEffect[] }) {
   if (effects.length === 0) return null
@@ -44,8 +55,8 @@ export function ChampionIndexPage() {
 
         <header className="space-y-3.5">
           <div className="flex flex-wrap items-baseline gap-3">
-            <h1 className="text-3xl font-semibold tracking-tight">精英怪总览</h1>
-            <span className="font-mono text-sm text-muted-foreground">Champion</span>
+            <h1 className="text-3xl font-semibold tracking-tight">{CHAMPION_INFO.name}</h1>
+            <span className="font-mono text-sm text-muted-foreground">{CHAMPION_INFO.en}</span>
           </div>
         </header>
 
@@ -59,13 +70,13 @@ export function ChampionIndexPage() {
 
         <section className="space-y-5">
           <h2 id="effects" className="scroll-mt-24 text-lg font-semibold tracking-tight">
-            词条一览(35 条全实现)
+            词条一览({CHAMPION_EFFECTS.length} 条全实现)
           </h2>
           <p className="max-w-[72ch] text-sm leading-relaxed text-muted-foreground">
-            以下每条都能在游戏里刷出并生效, 点进去看触发、结算与各品质数值。反震目前是半成品(只有单体反伤)。
+            {`以下每条都能在游戏里刷出并生效, 点进去看触发、结算与各品质数值。${partialNote(CHAMPION_EFFECTS)}`}
           </p>
           <div className="space-y-6">
-            {POOL_ORDER.map((pool) => (
+            {CHAMPION_POOL_GROUPS.map((pool) => (
               <EffectGroup key={pool} pool={pool} effects={CHAMPION_EFFECTS.filter((e) => e.pool === pool)} />
             ))}
           </div>

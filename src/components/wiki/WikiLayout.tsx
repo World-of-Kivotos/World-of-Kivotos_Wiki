@@ -1,6 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import { JOBS, DIMENSIONS, CHAMPION_EFFECTS, LAND_DOCS, LAND_GROUPS } from '@/content/wiki'
+import {
+  JOBS,
+  DIMENSIONS,
+  CHAMPION_EFFECTS,
+  CHAMPION_POOL_GROUPS,
+  LAND_DOCS,
+  LAND_GROUPS,
+} from '@/content'
 import { cn } from '@/lib/utils'
 import { NavGroup } from './NavGroup'
 
@@ -24,21 +31,15 @@ function GroupLabel({ children }: { children: string }) {
 export function WikiLayout() {
   const { pathname } = useLocation()
 
-  // 精英怪词条按 pool 字段动态派生分组(池按首次出现顺序), 条目/数量全从 CHAMPION_EFFECTS 取, 不硬编码。
-  const championPools = useMemo(() => {
-    const order: string[] = []
-    const byPool = new Map<string, typeof CHAMPION_EFFECTS>()
-    for (const e of CHAMPION_EFFECTS) {
-      const bucket = byPool.get(e.pool)
-      if (bucket) {
-        bucket.push(e)
-      } else {
-        byPool.set(e.pool, [e])
-        order.push(e.pool)
-      }
-    }
-    return order.map((pool) => ({ pool, effects: byPool.get(pool)! }))
-  }, [])
+  // 精英怪词条按 pool 归组; 池的显示顺序由 taxonomy 固定, 与总览页共用同一套, 不再各推各的。
+  const championPools = useMemo(
+    () =>
+      CHAMPION_POOL_GROUPS.map((pool) => ({
+        pool,
+        effects: CHAMPION_EFFECTS.filter((e) => e.pool === pool),
+      })),
+    [],
+  )
 
   // 领地文档按 group 归组; 组的显示顺序由 LAND_GROUPS 固定(上手在前, 服主在后), 不随数据文件里的排列漂移。
   const landGroups = useMemo(

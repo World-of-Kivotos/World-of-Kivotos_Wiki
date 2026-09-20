@@ -1,4 +1,4 @@
-import { AUDIT_DOCS, AUDIT_GROUPS, AUDIT_INFO, type AuditDoc } from '@/content/wiki'
+import { AUDIT_DOCS, AUDIT_GROUPS, AUDIT_INFO, type AuditDoc } from '@/content'
 import { ArticleToc, type TocItem } from '@/components/wiki/ArticleToc'
 import { ContentSection } from '@/components/wiki/Section'
 import { LinkRow } from '@/components/wiki/LinkRow'
@@ -40,11 +40,11 @@ export function AuditIndexPage() {
 
         <header className="space-y-3.5">
           <div className="flex flex-wrap items-baseline gap-3">
-            <h1 className="text-3xl font-semibold tracking-tight">main 功能审计</h1>
-            <span className="font-mono text-sm text-muted-foreground">Temporary audit</span>
+            <h1 className="text-3xl font-semibold tracking-tight">{AUDIT_INFO.name}</h1>
+            <span className="font-mono text-sm text-muted-foreground">{AUDIT_INFO.en}</span>
           </div>
           <p className="max-w-[64ch] text-base leading-relaxed text-muted-foreground">
-            只读统计当前生产 JAR 的功能、职业、注册物、联动与完整玩法，用于版本核对和 Bug 复现。
+            {AUDIT_INFO.tagline}
           </p>
         </header>
 

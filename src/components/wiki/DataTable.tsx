@@ -1,4 +1,4 @@
-import type { WikiTable } from '@/content/wiki'
+import type { WikiTable } from '@/content'
 import { cn } from '@/lib/utils'
 
 /** 干净表格: 数值列右对齐 + 等宽, 细线分隔, 替代成片的统计卡。 */

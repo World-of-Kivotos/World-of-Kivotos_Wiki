@@ -1,4 +1,4 @@
-import { AUDIT_DOCS, JOBS, DIMENSIONS, CHAMPION_EFFECTS, LAND_DOCS } from '@/content/wiki'
+import { AUDIT_DOCS, JOBS, DIMENSIONS, CHAMPION_EFFECTS, LAND_DOCS } from '@/content'
 import { JobList } from '@/components/wiki/JobList'
 import { LinkRow } from '@/components/wiki/LinkRow'
 
