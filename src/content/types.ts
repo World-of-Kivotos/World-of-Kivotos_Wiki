@@ -78,6 +78,8 @@ export interface Job {
 }
 
 export interface EconomyContent {
+  /** 页面 h1 */
+  name: string
   intro: string
   topics: Section[]
 }
@@ -106,6 +108,8 @@ export interface ChampionEffect {
   group: string
   /** 实现状态: 已实现 / 半成品。 */
   status: string
+  /** 仅半成品词条填写: 缺口是什么。总览页用它拼出"某某目前是半成品(原因)"那句话。 */
+  statusNote?: string
   tagline: string
   facts: Fact[]
   intro: string
@@ -131,6 +135,10 @@ export interface LandDoc {
 
 /** 领地板块总览页内容。 */
 export interface LandInfo {
+  /** 页面 h1 */
+  name: string
+  /** h1 旁的等宽小字 */
+  en: string
   /** mod 版本等标识信息 */
   facts: Fact[]
   intro: string
@@ -147,6 +155,10 @@ export interface ChampionDummy {
 
 /** 精英怪总览(总览页内容): 讲系统本身(星级/品质/点数/白名单/红线 + 系统机制), 与单个词条解耦。 */
 export interface ChampionInfo {
+  /** 页面 h1 */
+  name: string
+  /** h1 旁的等宽小字 */
+  en: string
   intro: string
   /** 总览 + 系统机制, 复用 Section 结构渲染。 */
   sections: Section[]
@@ -169,6 +181,12 @@ export interface AuditDoc {
 
 /** 临时审计区总览。 */
 export interface AuditInfo {
+  /** 页面 h1 */
+  name: string
+  /** h1 旁的等宽小字 */
+  en: string
+  /** h1 下方那句话 */
+  tagline: string
   facts: Fact[]
   intro: string
   sections: Section[]

@@ -1,0 +1,2 @@
+# markdown 内容必须是 LF: CRLF 会打乱 position.offset 与报错行号, 甚至破坏 frontmatter 切分。
+src/content/**/*.md text eol=lf

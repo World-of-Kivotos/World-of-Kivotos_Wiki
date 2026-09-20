@@ -15,6 +15,10 @@ import { auditIntegrations } from './integrations'
 import { auditKnownGaps } from './known-gaps'
 
 export const AUDIT_INFO: AuditInfo = {
+  name: 'main 功能审计',
+  en: 'Temporary audit',
+  tagline:
+    '只读统计当前生产 JAR 的功能、职业、注册物、联动与完整玩法，用于版本核对和 Bug 复现。',
   facts: [
     { label: '快照', value: 'main@701093bd' },
     { label: '生产 JAR', value: '1.0.19-all' },

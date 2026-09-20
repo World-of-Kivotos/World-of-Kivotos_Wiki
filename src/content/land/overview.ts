@@ -5,6 +5,8 @@ import type { LandInfo } from '../types'
  * 数值全部取自 Flan 1.11.16 (MC 1.20.1) 源码常量与 config 默认值, 不是凭印象写的。
  */
 export const LAND_INFO: LandInfo = {
+  name: '领地总览',
+  en: 'Flan',
   facts: [
     { label: 'MOD', value: 'Flan 1.11.16' },
     { label: '游戏版本', value: '1.20.1' },

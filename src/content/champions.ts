@@ -11,6 +11,8 @@ import type { ChampionEffect, ChampionInfo } from './types'
 
 /** 总览页: 系统本身怎么运作 + 玩家会遇到的系统机制。 */
 export const CHAMPION_INFO: ChampionInfo = {
+  name: '精英怪总览',
+  en: 'Champion',
   intro:
     '精英怪是普通怪在矿洞里按难度小概率"升格"出的强化单位。一只精英怪 = 一个星级 + 若干条词条: 星级越高, 它能带的词条越多、血越厚、打得越痛; 词条就是它身上的具体能力(减伤、燃烧、巨大化等)。本栏所有数值都逐条核对过当前代码, 词条分"已实现"与"尚未生效"两类——已实现的才展开讲, 尚未生效的在末尾诚实列出。',
   sections: [
@@ -357,6 +359,7 @@ export const CHAMPION_EFFECTS: ChampionEffect[] = [
     pool: '生存',
     group: '自我维持类',
     status: '半成品',
+    statusNote: '只有单体反伤',
     tagline: '近战它会按你的血量反伤给你; 范围反震与击退尚未实现。',
     facts: [
       { label: '所属池', value: '生存' },
@@ -764,7 +767,7 @@ export const CHAMPION_EFFECTS: ChampionEffect[] = [
     name: '自我修复单元',
     en: 'SELF_REPAIR',
     pool: '技能',
-    group: '自维持类',
+    group: '自我维持类',
     status: '已实现',
     tagline: '半血原地定身读条 6 秒回血, 读条期免伤 90%, 只能近战打断。',
     facts: [

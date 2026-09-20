@@ -8,6 +8,7 @@ import type { EconomyContent } from '@/content/types'
  */
 
 export const ECONOMY: EconomyContent = {
+  name: '经济总览',
   intro:
     '服务器的经济就是一套「赚钱 + 花钱」的循环, 把所有职业串在一起。两条底线贯穿始终: 不让任何人无限刷钱冲垮物价, 也不给「拿现实的钱买卖游戏币」留缝隙。下面一条条讲。',
   topics: [
