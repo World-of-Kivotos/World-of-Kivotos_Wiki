@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+/*
+  Tailwind v4 默认扫描项目里所有非 gitignore 文件找类名, 会把构建工具和内容也扫进去 ——
+  tools/dom-parity.mjs 里一句 `static async` 就让产物多出一条没人用的 .static 规则。
+  这里把两者排除掉: 类名只可能出现在应用代码里, 内容 markdown 是数据不是模板。
+*/
+@source not "../tools";
+@source not "./content";
+
 /* 深色模式: 通过 <html class="dark"> 切换 */
 @custom-variant dark (&:is(.dark *));
 
