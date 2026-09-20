@@ -174,7 +174,6 @@ defaultGroups 决定新领地自动带哪些权限组。默认是 Co-Owner(全�
 
 以下每条都能在源码里直接读到,不是推测。上线前建议逐条对照。
 
-:::table
 | 严重度 | 问题 | 影响与规避 |
 | --- | --- | --- |
 | Critical | claimingCooldown 大于 0 会让全服无法圈地 | 判定方向写反且依赖的时间戳每次登录归零。保持 0 |
@@ -187,4 +186,3 @@ defaultGroups 决定新领地自动带哪些权限组。默认是 Co-Owner(全�
 | Minor | 经验模式在特定等级会抛数组越界 | 缓存边界判定少了一个等号。等级恰好等于上次分配长度时触发 |
 | Minor | legacyOverrides 及四个历史键已失效 | 功能已迁到数据包 claim_interactions_override, 改配置没有任何效果 |
 | Minor | Create 移动机械那条权限的按领地开关是死的 | 代码里的判定写法导致开关不起作用 |
-:::

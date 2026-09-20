@@ -172,7 +172,6 @@ com.miningdim.command.CommandSystem 没有加入 MiningDim.registerSubsystems，
 
 ## 实例、加载窗与出生点
 
-:::table
 | 机制 | 当前精确行为 | 状态 |
 | --- | --- | --- |
 | 实例数量 | 开服保证 Easy/Medium/Hard 各 1 个，shared=true，固定实例不进 GC | 已接线 |
@@ -183,7 +182,6 @@ com.miningdim.command.CommandSystem 没有加入 MiningDim.registerSubsystems，
 | 出生池 | 中心向外扫描半径 16 列，最多检查 40,000 次，目标至少 8 点，点间 Chebyshev 距离至少 4 | 已接线 |
 | 出生安全 | 默认头顶 2 格空气、实心地板、3 格内无岩浆；占用 TTL 220 tick | 已接线 |
 | 出生兜底 | 最多 4 圈、每圈步长 4，失败后在 Y=49 建 3 x 3 石头平台并清 3 x 3 头顶空间 | 已接线 |
-:::
 
 > spawn.avoidTrapZones=true 与 spawn.mustBeMainComponent=true 都没有代码读取；安全点没有查询 TrapRegistry，也没有连通分量数据，因此配置名表达的两项保护并未生效。
 
@@ -211,13 +209,11 @@ TrapSystem.lastEvalTick 初值为 Long.MIN_VALUE，却直接判断 gameTime - la
 
 静态陷阱仍然可用：到期 delayed task 在同一个 tick handler 中先于错误节流判断执行。trap.dynamicEnabled=true 只控制 DynamicTrapEngine 内部，无法绕过外层不可达。
 
-:::table
 | 类型 | 代码门槛与冷却 | 代码效果 | main 实际状态 |
 | --- | --- | --- | --- |
 | 岩浆喷发 | danger>=0.70；实例冷却 300 tick；Easy 禁用 | 预警 20 tick，放 1 格岩浆，5 tick 后回收 | 不可达：TrapSystem 首轮评估被溢出锁死 |
 | 局部坍塌 | danger>=0.55；每玩家冷却 200 tick | 半径 6 内随机 1..3 列，预警 10 tick，落块总伤害 cap=6 | 不可达：同上 |
 | 身后苦力怕 | danger>=0.50；每玩家冷却 100 tick；Easy 禁用 | 8..20 格、70 度视锥外，最多 12 次选点 | 不可达：同上 |
-:::
 
 ## danger 公式与压力档位
 
@@ -255,7 +251,6 @@ Creeper 被强制走 behind 路径，所以 HIGH/EXTREME 怪池即使抽到 cree
 - 离开时 danger 没有接到 AbuseGuard.recordLeave，重入也不调用 computeReentryDanger；PressureSystem 每次重建状态为 0，主动离开再进入可清空压力。
 - Hard 掉落规则按死亡坐标 regionAt 判断。通过外部手段离开 Hard 盒但仍留在 miningdim 维度时，不会触发 Hard 强制掉落。
 
-:::table
 | 路径 | 当前行为 | 限制或缺口 |
 | --- | --- | --- |
 | /mining leave / mining.leave | 传送到 Capability 保存的进入前维度与整数方块坐标；清运行态并从实例移除 | 不做安全落点复核；失效维度才降级主世界出生点 |
@@ -265,7 +260,6 @@ Creeper 被强制走 behind 路径，所以 HIGH/EXTREME 怪池即使抽到 cree
 | Easy/Medium 死亡 | 依赖全局 keepInventory=true 才保留原版背包 | mod 只在 keepInventory=false 时记警告，不代设 gamerule |
 | Hard region 内死亡 | 把原版 Inventory 所有非消失诅咒物品转成死亡点掉落 | 第三方饰品/额外槽不在原版 Inventory 路径内 |
 | 死亡后重生 | EntrySystem 仅在重生点不在原实例时执行 leaveCurrentInstance | 没有传送回进入前坐标，尽管消息文本声称已经送回 |
-:::
 
 ## 手动重置与滑区
 
@@ -274,14 +268,12 @@ Creeper 被强制走 behind 路径，所以 HIGH/EXTREME 怪池即使抽到 cree
 - /mining reset all 直接给所有可进入实例逐个入队，但 ResetSystem 在同一 tick 遍历全部 activeJobs；实际是并行推进三份状态机，不是注释声称的串行队列。
 - RetiredRegionGc 把区域大小写死为 MiningConstants 的 16 x 16。若允许的 regionSizeChunks 配置改成非 16，回收数量与行宽都会错误。
 
-:::table
 | 阶段 | 实际工作 | 耗时/结果 |
 | --- | --- | --- |
 | UNLOAD | 撤离、释放全部 ticket、计算目标 instance seed、清旧 region 的 TrapRegistry | 1 tick |
 | REGEN | 调用 slideRegion：登记旧区、换新坐标、更新 RegionLayout、广播缓存失效、直接置 READY | 通常 1 tick；没有离线重生成 |
 | SETTLE | 清 liveMobs | 至少 2 tick |
 | 退役区 GC | 每 100 tick 最多清 16 个地形区块；默认一块 16 x 16=256 区块 | 最快 80 秒；不清 entities 与 POI 存储 |
-:::
 
 ## 定时自动重置当前不可达
 
@@ -377,7 +369,6 @@ Creeper 被强制走 behind 路径，所以 HIGH/EXTREME 怪池即使抽到 cree
 
 ## 可达代码、死代码与缺失玩法
 
-:::table
 | 对象 | 物理状态 | 结论 |
 | --- | --- | --- |
 | minecraft:noise + MiningBiomeSource + 四 biome JSON | 入包并完成注册链 | 现行唯一地形生成路径 |
@@ -391,11 +382,9 @@ Creeper 被强制走 behind 路径，所以 HIGH/EXTREME 怪池即使抽到 cree
 | MiningErrors connectivity/retry/seed-broken helper | 类入包 | 旧离线生成链下线后无调用方 |
 | 深暗、幽匿、远古城市、Warden | 未找到资源或注册链 | 当前 main 未实现 |
 | 真正按 instance seed 重生地形 | ResetMode 与 seed 字段存在 | minecraft:noise 不读取 instance seed，未实现 |
-:::
 
 ## 已确认缺陷清单
 
-:::table
 | 严重度 | 缺陷 | 直接证据与影响 |
 | --- | --- | --- |
 | Critical | 动态陷阱永久不评估 | TrapSystem.lastEvalTick=Long.MIN_VALUE 后直接做 gameTime-lastEvalTick；溢出令 evaluateInstance 永不可达 |
@@ -410,7 +399,6 @@ Creeper 被强制走 behind 路径，所以 HIGH/EXTREME 怪池即使抽到 cree
 | Minor | 玩家级 mob 上限 0 被改成 1 | 配置允许 0，spawnWave 使用 Math.max(1, mobMaxPerPlayer) |
 | Minor | reseed 入场参数是空操作 | EntryGateway 仅把 reseed 写 debug 日志 |
 | Minor | 有效 reset 缺服务端确认与冷却 | 确认与 cooldown 只在未装配 command 包；entry 命令 OP2 可直接执行 |
-:::
 
 ## 复核源码入口
 

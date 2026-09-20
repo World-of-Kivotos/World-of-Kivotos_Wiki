@@ -38,14 +38,12 @@ facts:
 
 ## TaCZ：四条真实联动链
 
-:::table
 | 主系统 | TaCZ 接点 | 缺失 TaCZ 时 | 当前边界 |
 | --- | --- | --- | --- |
 | 军火商 | 把口径与批次物化为 TaCZ 弹药；枪匠装配 9 种枪 ID | 职业与工作台仍注册，但弹药/枪械物化不可用 | 枪匠默认关闭且没有生存发放链；只有 M4A1 使用自定义 miningdim 枪数据 |
 | 开箱 | 17 种皮肤归属、资源探测和应用写入 | 服务端 case action 会按不可用状态拒绝关键步骤 | 开箱状态机和 SQLite Saga 在主 JAR，实际皮肤应用必须真客户端验证 |
 | 任务 | 枪械击杀等事实来源在 TaCZ 加载时注册 | 非枪械任务仍可用，TaCZ 事实不会产生 | 任务核心不是 TaCZ 硬依赖 |
 | 铸甲师 | 监听 TaCZ 枪击事件，并对四个已知 damage ID 分别走 R 或 Q | 板甲仍处理通用物理伤害 | 未知未来 TaCZ 伤害 ID 明确不猜；跨版本可能改变内部包和事件顺序 |
-:::
 
 > 源码不仅使用公开 API，还触及 TaCZ 内部资源包。mods.toml 因此把上界锁在 1.1.9 之前；当前可确认编译目标是本地 1.1.8-hotfix，不能据此宣称任意 1.1.8 整合包都已通过真服。
 
@@ -73,18 +71,15 @@ facts:
 
 ## 内容与信息展示兼容
 
-:::table
 | 对象 | 接线内容 | 未覆盖内容 |
 | --- | --- | --- |
 | Farmer’s Delight | 农夫识别 cabbage、onion、tomato、rice 等收获物；番茄有专用重采路径；厨师接受 tomato_sauce | 未安装时相关可选注册 ID 路径跳过，不阻断原版作物与主 Mod 作物 |
 | 烟火凡人心 | 准确 modId 是 flavor_immersed_daily；调味标签和 SeasoningTag 识别 27 种物品，并有战斗效果黑名单 | 没有 mods.toml 版本门、Java API 或专属测试运行时；属于数据 ID 兼容 |
 | JEI | PowerJeiPlugin 注册 Metallurgic Purifying 与 Air Separating 两类自定义 RecipeType 展示 | 酿酒师 9 个 Java 内部配方不是 RecipeType，不会自动出现在 JEI |
 | Jade | PowerJadePlugin 注册 5 类方块 provider，含能量、温度、故障、进度与冷却状态 | 其他职业机器没有专属 Jade provider |
-:::
 
 ## 容易被误写成现成联动的项目
 
-:::table
 | 名称 | 当前源码事实 | 本区判定 |
 | --- | --- | --- |
 | Champions | 35 个词缀、星级、血池和特勤探测已迁入 MiningChampionData；不再调用 top.theillusivec4.champions | 第三方 Champions 不是精英主玩法前置；16 个禁用 JSON 和声明属于历史兼容 |
@@ -94,11 +89,9 @@ facts:
 | Flan | 主 JAR 没有 Flan 依赖声明或 API 调用；Wiki 的领地文档描述服务器另装内容 | 外部服务器玩法，不统计为 miningdim 编译功能 |
 | WOK-ChestShop | 位于独立仓库、独立构建与独立 mod；可消费同一信用点体系，但不在根 sourceSet | 独立伴生 Mod，不计入本次 377 个主 JAR 注册对象 |
 | 组队 / 空军 / 统一平板终局 | 只有设计、调研或未合分支线索，当前装配表没有对应 Subsystem | 未实现 |
-:::
 
 ## 真服验证矩阵
 
-:::table
 | 组合 | 静态证据 | 仍需验证 |
 | --- | --- | --- |
 | 纯 Forge + -all.jar | 无可选 Mod 的 GameTest 路径和 SQLite 内嵌元数据存在 | 全新世界迁移、JarJar 驱动加载、多人账本一致性 |
@@ -106,6 +99,5 @@ facts:
 | + MCEF 2.1.6 | 客户端守卫、网络 action 和远端 URL 配置存在 | JCEF 初始化、登录握手、页面往返、断线恢复与特勤 scan/seal |
 | + JEI / Jade 精确版本 | 插件类、翻译键和依赖声明入包 | 客户端加载、配方布局、服务端数据 provider 与权限边界 |
 | + Farmer’s Delight / 烟火凡人心 | registry ID、可选标签与偏向映射存在 | 真实版本下收获事件、物品 ID 漂移、调味槽与效果黑名单 |
-:::
 
 > “需真服验证”不是“没有编译”。它表示当前 JAR 已含调用方或数据入口，但外部 Mod 的真实二进制、事件顺序、资源包和客户端环境不在本轮只读审计的可控边界内。

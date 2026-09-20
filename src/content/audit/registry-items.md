@@ -19,7 +19,6 @@ Item registry 总数包含 BlockItem，不把一个带 NBT、CustomModelData 或
 
 ## 按系统计数
 
-:::table
 | 系统 | 物品数 | 组成 |
 | --- | ---: | --- |
 | 核心/入口/婚姻 | 7 | 五个方块物品与两枚戒指 |
@@ -31,7 +30,6 @@ Item registry 总数包含 BlockItem，不把一个带 NBT、CustomModelData 或
 | 酿酒师 | 12 | 干燥小麦、九种酒与两台机器 |
 | 能源 | 85 | 发电、线缆、机器、矿物与橡胶链 |
 | 合计 | 224 | 同一 Item registry 内无重复 ID |
-:::
 
 ## 224 个物品注册 ID
 

@@ -61,7 +61,12 @@ export function cellsOf(row: TableRow, ctx: ParseContext): string[] {
   return row.children.map((cell) => rawText(ctx.source, cell, ctx.file, ctx.lineOffset))
 }
 
-function parseIndexList(raw: string, node: ContainerDirective, ctx: ParseContext, columnCount: number): number[] {
+function parseIndexList(
+  raw: string,
+  node: Table | ContainerDirective,
+  ctx: ParseContext,
+  columnCount: number,
+): number[] {
   const parts = raw.split(',').map((p) => p.trim()).filter((p) => p.length > 0)
   const out: number[] = []
   for (const part of parts) {
@@ -83,13 +88,19 @@ function parseIndexList(raw: string, node: ContainerDirective, ctx: ParseContext
 }
 
 /**
- * :::table{caption="..." mono="0,2"} + 一张 GFM 表格 -> WikiTable。
+ * 一张 GFM 表格 -> WikiTable。
  * 右对齐列(分隔行写 ---:)即 numericCols —— DataTable 对 numericCols 做的正是右对齐 +
  * 等宽数字, 语义完全重合, 所以不再造一个属性, 作者在任何 markdown 预览里也能直接看出效果。
+ *
+ * @param at 报错时指向的节点: 裸表格指自己, 带容器时指容器
  */
-export function parseTableDirective(node: ContainerDirective, ctx: ParseContext): WikiTable {
-  rejectUnknownAttrs(node, ['caption', 'mono'], ctx)
-  const table = singleTableOf(node, ctx)
+export function parseTable(
+  table: Table,
+  at: Table | ContainerDirective,
+  ctx: ParseContext,
+  options: { caption?: string; mono?: string } = {},
+): WikiTable {
+  const node = at
 
   const [headerRow, ...bodyRows] = table.children
   if (!headerRow) {
@@ -131,9 +142,8 @@ export function parseTableDirective(node: ContainerDirective, ctx: ParseContext)
     failAt(ctx.file, node, ctx.lineOffset, '表格只有表头没有数据行')
   }
 
-  const caption = attr(node, 'caption')
-  const monoRaw = attr(node, 'mono')
-  const monoCols = monoRaw === undefined ? [] : parseIndexList(monoRaw, node, ctx, columnCount)
+  const { caption, mono } = options
+  const monoCols = mono === undefined ? [] : parseIndexList(mono, node, ctx, columnCount)
 
   return {
     ...(caption === undefined ? {} : { caption }),
@@ -142,4 +152,21 @@ export function parseTableDirective(node: ContainerDirective, ctx: ParseContext)
     ...(monoCols.length > 0 ? { monoCols } : {}),
     rows,
   }
+}
+
+/** :::table{caption="..." mono="0,2"} 包着的表格; 不需要这两个属性时直接写裸 GFM 表格即可。 */
+export function parseTableDirective(node: ContainerDirective, ctx: ParseContext): WikiTable {
+  rejectUnknownAttrs(node, ['caption', 'mono'], ctx)
+  const table = singleTableOf(node, ctx)
+  const caption = attr(node, 'caption')
+  const mono = attr(node, 'mono')
+  if (caption === undefined && mono === undefined) {
+    failAt(
+      ctx.file,
+      node,
+      ctx.lineOffset,
+      ':::table 没带 caption 或 mono, 这层容器是多余的; 直接写普通 GFM 表格',
+    )
+  }
+  return parseTable(table, node, ctx, { caption, mono })
 }

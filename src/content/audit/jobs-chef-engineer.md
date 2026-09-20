@@ -80,7 +80,6 @@ MiningDim.registerSubsystems() 在共享 JobFrameworkSystem 与 CombatSystem 之
 
 ## 厨师品质判定与经验
 
-:::table
 | 品质 | 综合分门槛 | 等级上限 | 最多效果 | 允许失败效果 | 允许战斗效果 | 原始 XP |
 | --- | --- | --- | --- | --- | --- | ---: |
 | 低级 Low | < 0.35 | L1–2 | 1 | 是 | 否 | 50 |
@@ -88,7 +87,6 @@ MiningDim.registerSubsystems() 在共享 JobFrameworkSystem 与 CombatSystem 之
 | 高级 High | >= 0.55 | L5–6 | 2 | 是 | 是 | 130 |
 | 非凡 Extraordinary | >= 0.75 | L7–8 | 2 | 否 | 是 | 220 |
 | 光辉 Radiant | >= 0.90 | L9–10 | 3 | 否 | 是 | 400 |
-:::
 
 > 最终品质取原始判定、台阶上限、等级上限三者最低值。效果数=min(品质最大数,max(1,命中数))，因此调味 0 命中仍会得到 1 个效果；效果不重复，战斗效果至多一个。
 
@@ -115,7 +113,6 @@ MiningDim.registerSubsystems() 在共享 JobFrameworkSystem 与 CombatSystem 之
 - SHIELD 提升到目标吸收量而非叠加；GREASE 通过全局 PlayerDamageReduction 处理 explosion 与 player_explosion。
 - STABLE_AIM 配置里有 Medium 50%，但该效果要求 L7+ 和战斗品质，而 Medium 不允许战斗效果，故 50% 档实际不可达。
 
-:::table
 | 效果 | 可出现条件 | Low / Medium / High / Extraordinary / Radiant |
 | --- | --- | --- |
 | AMPLIFY | 全等级 | 食物自身正面药效时长 x1.2 / x1.5 / x2 / x3 / x5 |
@@ -131,11 +128,9 @@ MiningDim.registerSubsystems() 在共享 JobFrameworkSystem 与 CombatSystem 之
 | GREASE | L5+ 且战斗品质 | High/Extraordinary/Radiant：爆炸减伤 30% / 45% / 60%，120 秒 |
 | AFTERTASTE_REGEN | L5+ 且战斗品质 | 30 秒共恢复最大生命 5% / 6% / 10%，每秒结算 |
 | STABLE_AIM | L7+ 且战斗品质 | High/Extraordinary/Radiant：击退降低 70% / 85% / 100%，60 秒 |
-:::
 
 ## 厨师失败效果与生命周期
 
-:::table
 | 效果 | Low / Medium / High | 实际行为 |
 | --- | --- | --- |
 | UNDERDONE | 80% / 50% / 25%；12 / 8 / 6 秒 | 随机施加 Slowness、Mining Fatigue 或 Weakness I |
@@ -143,13 +138,11 @@ MiningDim.registerSubsystems() 在共享 JobFrameworkSystem 与 CombatSystem 之
 | NAUSEA | 8 / 6 / 4 秒 | 名称与实现不符：实际为 Poison II / Poison I / Poison I，另减 2 饥饿 |
 | OVERSALT | 仅 Low、Medium | 当前饱和度减半 |
 | SPOILED | 仅 Low | 反向扣回原食物的饥饿与饱和恢复，跳过其他效果 |
-:::
 
 > 窗口效果均为内存态、刷新而不叠加；死亡、换维度、登出会清除，服务器重启也会丢失。
 
 ## 厨师已证实缺陷
 
-:::table
 | 严重度 | 问题 | 证据与影响 |
 | --- | --- | --- |
 | Major | 调味台 GUI 纹理缺失 | SeasoningScreen 引用 textures/gui/seasoning_table.png，但源码与构建产物均无该文件，客户端会显示缺失纹理。 |
@@ -157,7 +150,6 @@ MiningDim.registerSubsystems() 在共享 JobFrameworkSystem 与 CombatSystem 之
 | Major | 0 命中仍必出效果 | 效果数公式硬性 max(1,hits)，失误不能得到零效果。 |
 | Minor | Tooltip 不显示数值 | ChefTooltipHandler 只显示品质和效果名，没有配置中的倍率、百分比或持续时间。 |
 | Minor | 文案与实现有偏差 | ENDURANCE 是定时补饱和而非直接减慢饥饿衰减；NAUSEA 实际施加 Poison。 |
-:::
 
 ## 铸甲师注册物与界面
 
@@ -192,7 +184,6 @@ MiningDim.registerSubsystems() 在共享 JobFrameworkSystem 与 CombatSystem 之
 
 ## 修复板生产与修复数值
 
-:::table
 | 阶级 | 解锁等级 | 输入 | 基础产量 | 最低时间 | 原始 XP | 修复量 |
 | --- | ---: | --- | ---: | ---: | ---: | --- |
 | LOW | 1 | 4 iron_ingot | 1 | 100 tick / 5 秒 | 15 | 100 耐久 |
@@ -201,7 +192,6 @@ MiningDim.registerSubsystems() 在共享 JobFrameworkSystem 与 CombatSystem 之
 | SUPERIOR | 7 | 1 netherite_ingot | 2 | 200 / 10 秒 | 110 | 最大耐久 30% |
 | TRANSCENDENT | 9 | 1 netherite_ingot | 1 | 240 / 12 秒 | 200 | 最大耐久 65% |
 | RADIANT | 10 | 2 netherite_ingot | 1，50% 成功 | 300 / 15 秒 | 200 | 完全修复；失败返 1 netherite_scrap |
-:::
 
 ## 铸甲师生产操作、权限与经验
 
@@ -225,14 +215,12 @@ MiningDim.registerSubsystems() 在共享 JobFrameworkSystem 与 CombatSystem 之
 
 ## 四种纳米效果精确行为
 
-:::table
 | 效果 | 默认值 | 失效条件或边界 |
 | --- | --- | --- |
 | RESHAPE | 每 20 tick、每件修 2 耐久 | 已损耐久超过最大耐久 40% 后停止 |
 | VITALITY | 每 20 tick 基础回 2% 最大生命；多件因子 100% / 50% / 25% / 12.5% | 单件剩余耐久低于 50% 停效；四件合计每秒 3.75% 最大生命 |
 | SHIELD | 每件 5 充能，每 1200 tick 回 1；触发后本次及后续 40 tick 全免伤 | bypass tag 不挡；穿着功能正常的 PlateArmor 或 PlasmaShield 时，其他槽位纳米 SHIELD 也整体停用 |
 | TOTEM | 取消死亡、回 50% 最大生命、40 tick 无敌并灭火 | 人物级共享冷却 36000 tick / 30 分钟；每件穿戴 TOTEM 装备损耗 floor(最大耐久 25%) |
-:::
 
 > \#miningdim:bypasses_nano_shield 与等离子盾绕过标签均包含 #minecraft:bypasses_invulnerability、starve、drown、in_wall、cramming。
 
@@ -246,7 +234,6 @@ MiningDim.registerSubsystems() 在共享 JobFrameworkSystem 与 CombatSystem 之
 
 ## 板甲六级基础矩阵
 
-:::table
 | 等级 | R light / medium / heavy | Q light / medium / heavy | G light / medium / heavy | T light / medium / heavy |
 | --- | --- | --- | --- | --- |
 | I | .45 / .50 / .55 | 0 / 0 / 0 | .35 / .40 / .45 | 16 / 20 / 24 |
@@ -255,13 +242,11 @@ MiningDim.registerSubsystems() 在共享 JobFrameworkSystem 与 CombatSystem 之
 | IV | .85 / .88 / .90 | .15 / .20 / .25 | .70 / .76 / .78 | 58 / 72 / 84 |
 | V | .90 / .92 / .94 | .25 / .35 / .45 | .78 / .84 / .86 | 84 / 96 / 112 |
 | VI | .94 / .96 / .98 | .45 / .50 / .55 | .86 / .88 / .90 | 112 / 128 / 154 |
-:::
 
 > 基础移动速度 light +10%、medium 0、heavy -12%。
 
 ## 板甲材料修正
 
-:::table
 | 材料 | 耐久 | R 泄漏乘数 | Q 泄漏乘数 | G 泄漏乘数 | T 乘数 | 额外移速惩罚 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | UHMWPE | 850 | .88 | 1.08 | .94 | 1.08 | 0 |
@@ -271,7 +256,6 @@ MiningDim.registerSubsystems() 在共享 JobFrameworkSystem 与 CombatSystem 之
 | ALUMINUM | 580 | .98 | 1.00 | .98 | 1.00 | .015 |
 | TITANIUM | 700 | .90 | .98 | .94 | 1.08 | .005 |
 | CERAMIC | 420 | .94 | .88 | 1.00 | 1.15 | .005 |
-:::
 
 > 最终 R/Q/G=max(0,1-(1-base)×泄漏乘数)，但基础值为 0 时强制为 0；最终 T=基础 T×材料乘数；最终移速=体型基础-材料惩罚。
 
@@ -292,7 +276,6 @@ MiningDim.registerSubsystems() 在共享 JobFrameworkSystem 与 CombatSystem 之
 
 ## 等离子盾 18 型精确默认值
 
-:::table
 | 型号 | 当前盾容量 | 总电量 | 每伤害热量 | 每秒散热 | 每秒回盾 | 回盾延迟 tick | 移速 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | NANO I | 30 | 60 | .50 | 30 | 18 | 90 | 0 |
@@ -313,7 +296,6 @@ MiningDim.registerSubsystems() 在共享 JobFrameworkSystem 与 CombatSystem 之
 | QUANTUM IV | 215 | 576 | .46 | 6.8 | 4.5 | 124 | -10.2% |
 | QUANTUM V | 300 | 732 | .41 | 7.4 | 5 | 122 | -9.6% |
 | QUANTUM VI | 400 | 912 | .36 | 8 | 5.5 | 120 | -9% |
-:::
 
 > 旧 ID plasma_shield_nano、plasma_shield_light、plasma_shield_heavy_ion 分别复用 NANO I、STANDARD I、QUANTUM I 数值。
 
@@ -327,7 +309,6 @@ MiningDim.registerSubsystems() 在共享 JobFrameworkSystem 与 CombatSystem 之
 
 ## 铸甲师已证实边界与缺陷
 
-:::table
 | 严重度 | 项目 | 审计结论 |
 | --- | --- | --- |
 | Major | 54 板甲和 21 盾无生存获取链 | 配方、掉落、商店、任务和生产台均无 plate_armor_ 或 plasma_shield_ 发放；只能创造、/give 或旧存档获得。应标为“已注册，但生存不可达”。 |
@@ -336,7 +317,6 @@ MiningDim.registerSubsystems() 在共享 JobFrameworkSystem 与 CombatSystem 之
 | Major | 高级台制造低级板更慢 | 最低时间取 machineTier().produceTicks()，不是所选配方阶级。 |
 | Minor | WebUI 信息不完整 | job.engineer.state 只展示职业、修复板与纳米效果，不包含 54 板甲或 18 正式盾的数值。 |
 | Minor | 命名遗留 | 职业 ID/注册链为 engineer，中文名铸甲师，但子系统 name() 仍返回 ArmorerSystem。 |
-:::
 
 ## WebUI、持久性与源码定位
 

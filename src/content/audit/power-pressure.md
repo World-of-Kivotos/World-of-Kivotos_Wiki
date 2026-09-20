@@ -80,13 +80,11 @@ facts:
 
 ## P1 到 P3 的可达玩法链
 
-:::table
 | 阶段 | 核心内容 | 生存推进 |
 | --- | --- | --- |
 | P1 基础供电 | 铁、铝、铜三档显式列入 P1_MATERIALS；工业发电机；基础矿物、橡胶与 PVC/PE | 采矿和割胶取得原料，制作工业燃料芯、工业发电机与低压线缆 |
 | P2 精炼与中高压 | 镀锡铜、OFC、OFE、镀银铜、4N 金、银；冶金提纯机、空分装置；现代发电机 | 工业电驱动提纯和空分，产出氩气、液氮与高纯导体，再升级现代档 |
 | P3 极高压与超导 | 石墨烯、NbTi、YBCO、钨耐热线、低温控制器；未来能源发电机 | 合成超导前驱体和带材，以液氮维持 NbTi，最终升级未来档 |
-:::
 
 > P1 的三导体集合、P2 六导体和 P3 三导体由源码及对应 GameTest 明确命名；阶段内其他机器和发电机按实际配方依赖链归类。
 
@@ -265,13 +263,11 @@ facts:
 - 压力状态只存在内存；离开矿山维度、登出、跨实例或落在无效 region 会删除或重建。重新进入不会继承上次压力。
 - 矿工“耐压”被动已接线：L1-L3 系数 1.0，L4 为 0.85，逐级下降到 L10 的 0.60；只缩放 tWin 累积和理论衰减，不削弱 zone 基础项。
 
-:::table
 | 难度 | zone 初值 | 理论天花板 | 默认阈值到达时间，从进入实例计 |
 | --- | ---: | ---: | --- |
 | 入门 | 0.09 | 0.59 | LIGHT 0.20 约 15 秒；MEDIUM 0.40 约 58 秒；坍塌 0.55 约 152 秒；HIGH 与岩浆不可达 |
 | 进阶 | 0.29 | 0.79 | MEDIUM 约 15 秒；动态苦力怕 0.50 约 33 秒；坍塌约 44 秒；HIGH 约 58 秒；岩浆约 103 秒；EXTREME 不可达 |
 | 硬核 | 0.40 | 0.90 | 动态苦力怕约 14 秒；坍塌约 21 秒；HIGH 约 31 秒；岩浆约 55 秒；EXTREME 约 97 秒 |
-:::
 
 ## 五档压力刷怪
 
@@ -281,7 +277,6 @@ facts:
 - 压力怪不设 persistenceRequired，沿用原版自然消失。每实例只有一个 nextSpawnTick，多玩家共用；迭代中先到的玩家可能消费本次波次。
 - 落地成功后无条件调用自研 ChampionSpawnSeam。ChampionSystem 当前无条件绑定 promoter，升格不再依赖外部 Champions mod；入门 / 进阶 / 硬核升格概率由冠军系统另定为 6% / 10% / 15%。
 
-:::table
 | 档位 | danger 区间 | 间隔 | 单波 | 允许怪物 | 同步视觉档 |
 | --- | --- | ---: | --- | --- | --- |
 | SAFE | [0.00, 0.20) | 不刷 | 0 | 无 | SAFE；压暗系数 0 |
@@ -289,24 +284,20 @@ facts:
 | MEDIUM | [0.40, 0.60) | 280 tick / 14 秒 | 1-2 | 再加入 skeleton | ALERT；压暗系数 0.33 |
 | HIGH | [0.60, 0.80) | 180 tick / 9 秒 | 2-3 | 再加入 creeper | HIGH；压暗系数 0.66 |
 | EXTREME | [0.80, 1.00] | 120 tick / 6 秒 | 3-4 | 再加入 cave_spider、witch | HIGH；压暗系数 1.0 |
-:::
 
 ## 压力驱动的三类动态陷阱
 
 - 每实例每次评估最多触发 1 个动态陷阱，优先级为岩浆、坍塌、身后苦力怕。
 - 实现没有“按 danger 概率掷骰”的随机门；只要达到阈值、冷却结束且找到合法位置，就会按优先级确定性触发。源码类注释中的“概率 tick”与实际代码不一致。
 
-:::table
 | 陷阱 | 门槛 | 冷却与预警 | 实际效果 |
 | --- | --- | --- | --- |
 | 身后苦力怕 | danger >= 0.50；入门禁用 | 每玩家 100 tick；生成声提示 | 8-20 格视锥外寻找合法点，设为 persistenceRequired，并计入同一实例怪物上限 |
 | 局部坍塌 | danger >= 0.55；三难度均可 | 每玩家 200 tick；预警 10 tick | 随机 1-3 列，保留原可落方块语义，伤害上限 6 |
 | 岩浆喷发 | danger >= 0.70；入门禁用 | 每实例 300 tick；预警 20 tick | 放置 1 个岩浆源，5 tick 后回收 |
-:::
 
 ## 已确认断线与缺陷
 
-:::table
 | 级别 | 问题 | 证据与影响 |
 | --- | --- | --- |
 | Major | 压力 HUD 与屏幕压暗未接线 | DangerSyncS2C 已注册并持续写 ClientDangerState，但生产代码没有任何 HUD 或 overlay 读取 ClientDangerState；client.dangerVisualMode、showInstanceHud、dangerHudScale 因而没有可见效果 |
@@ -320,11 +311,9 @@ facts:
 | Minor | 发电机原生 GUI 不显示电网故障 | GeneratorMenu 已同步 networkFaultOrdinal，但 GeneratorScreen 没有读取；安装 Jade 时可从 Jade 提示看到 |
 | Minor | 客户端压力缓存离开维度后不清 | 当前没有渲染消费者，所以暂时不可见；未来接 HUD 前需要处理旧值残留 |
 | 信息 | Champions 软依赖声明已过时 | mods.toml 仍声明可选 Champions 2.1.10.2，部分注释也称未安装时不升格；实际 ChampionSystem 已改为自研并无条件绑定 |
-:::
 
 ## 资源存在、测试专用与明确排除
 
-:::table
 | 对象 | 物理状态 | 本页归类 |
 | --- | --- | --- |
 | 能源模型、blockstate、loot、中英名称 | 85 / 37 / 37 全量对应，en_us 与 zh_cn 的 85 个展示键均齐全 | 已接线资源，没有发现“有注册无资源”的能源对象 |
@@ -333,7 +322,6 @@ facts:
 | 9 个 power GameTest 类 | 位于 src/main/java 且外层 class 随 JAR 入包 | 测试专用，不算功能入口 |
 | 3 个 pressure GameTest 类 | DangerCurveGameTests、MobCountAccountingGameTests、PressureGameTests | 测试专用，不算功能入口 |
 | EnergyNetworkManager debug 方法 | debugNetworkSize、debugSameNetwork、debugLastLoadAt、debugRatedCapAt、debugEndpointCountAt、debugNetworkActiveAt、debugPutSyntheticEndpoint、debugClearSyntheticEndpoints | 编译入包的测试探针，无玩家注册入口 |
-:::
 
 > power 的 9 个测试类为 GeneratorGameTests、GeneratorRuntimeGameTests、EnergyCableGameTests、PowerMidgameRecipeGameTests、PowerEndgameRecipeGameTests、PowerMachineGameTests、PowerMineralGameTests、RubberGameTests、LowTemperatureControllerGameTests。
 

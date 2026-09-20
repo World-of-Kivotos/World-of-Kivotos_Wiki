@@ -67,7 +67,6 @@ facts:
 
 ## 展示、资源与运维缺口
 
-:::table
 | 范围 | 现状 | 影响 | 建议核法 |
 | --- | --- | --- | --- |
 | 压力客户端 | DangerSync 已发包，但 ClientDangerState 没有 HUD 或滤镜消费者 | 玩家收不到设计中的危险度视觉反馈 | 抓取 S2C 后同时检查 HUD、日志与客户端状态 |
@@ -78,7 +77,6 @@ facts:
 | 陷阱矿石 | trap_ore 缺中英文方块翻译 | 物品或调试界面会显示原始语言键 | 切换 zh_cn 与 en_us 检查显示名 |
 | 生产 JAR | 含 177 个 GameTest/testutil class、26 个 .cache 文件及额外嵌套 slf4j JAR | 不直接改变玩法，但扩大产物并混入测试与缓存内容 | 用固定 SHA-256 解包复核，不把这些条目计入玩家功能 |
 | 游戏内 WebUI | MCEF 是软依赖，默认 webui.url 仍为 http://localhost:5173/ | 未安装 MCEF 或未覆盖生产 URL 时，特勤扫描封印等仅 WebUI 入口不可用 | 分别测试无 MCEF、默认 URL、生产 URL 三种客户端 |
-:::
 
 ## 回报 Bug 时附带的信息
 

@@ -44,7 +44,6 @@ facts:
 - job.progress 恒返回 8 条职业记录，每条为 {jobId,level,totalXp,levelXp,nextLevelXp,dailyXp,dailyRemaining}；admin.job.setLevel 只接受在线玩家及 {playerName,jobId,level}。
 - 进度内部以 double 保存。矿工等职业在读出时 floor，农夫在读出、派生等级与显示当日 XP 时 Math.round；系统没有自动等级奖励物品或升级仪式。
 
-:::table
 | 等级 | 达到本级的累计有效 XP | 从本级升下一级 |
 | ---: | ---: | ---: |
 | 1 | 0 | 3300 |
@@ -57,7 +56,6 @@ facts:
 | 8 | 39400 | 10300 |
 | 9 | 49700 | 12200 |
 | 10 | 61900 | 满级 |
-:::
 
 > 权威源：job/JobId.java、JobXpCurve.java、JobXpPolicies.java、JobProgress.java、entry/MiningPlayerData.java。FarmerConstants.java 仍声称农夫使用共享 2000 系衰减，但运行期 JobXpPolicies 明确路由到 farmer/FarmerXpCurve.java 的 1500 系；这是文档与实现漂移。
 
@@ -88,7 +86,6 @@ facts:
 
 ## 农夫等级、耕地上限与产量
 
-:::table
 | 等级 | 本级最高已解锁档 | 全服跨维度放置上限 |
 | ---: | --- | ---: |
 | 1 | low | 9 |
@@ -101,7 +98,6 @@ facts:
 | 8 | premium | 42 |
 | 9 | supreme | 48 |
 | 10 | supreme | 64 |
-:::
 
 > 上限不是每区块或每领地，而是按玩家 UUID 统计所有维度的已认领农夫耕地坐标。权威源：FarmerConstants.FARMLAND_CAP_PER_LEVEL、FarmerSavedData、FarmlandPlacementGuard。
 
@@ -231,7 +227,6 @@ facts:
 
 ## 矿工逐级里程碑
 
-:::table
 | 等级 | 新增或扩展能力 |
 | ---: | --- |
 | 1 | 挖速加成、省耐久、Easy 入口 |
@@ -244,7 +239,6 @@ facts:
 | 8 | Hard 入口、自动熔炼金；致死陷阱；探矿加入金、远古残骸、镍、铬、钨 |
 | 9 | 3×3×4 隧道挖、声东击西 |
 | 10 | 各线性成长数值达到封顶 |
-:::
 
 ## 矿工被动数值表
 
@@ -255,7 +249,6 @@ facts:
 - 耐压只缩放 Danger 的时间项。当前生产调用总是 activeInRegion=true，实际只减慢压力累积，不改变 zoneTerm。
 - 矿脉抗性只减 FALLING_BLOCK、FALLING_STALACTITE、FALLING_ANVIL、LAVA、IN_FIRE、ON_FIRE、HOT_FLOOR 及非玩家爆炸；不减 PLAYER_EXPLOSION、怪物、玩家、弹射物和普通摔伤。
 
-:::table
 | L | 挖速倍率 | 省耐久 | 矿脉时运额外期望 | Danger 时间系数 | 陷阱减伤 |
 | ---: | ---: | ---: | ---: | ---: | ---: |
 | 1 | 1.150 | 5% | 未解锁 | 1.000 | 未解锁 |
@@ -268,7 +261,6 @@ facts:
 | 8 | 1.888889 | 24.444444% | 36% | 0.683333 | 25% |
 | 9 | 1.994444 | 27.222222% | 43% | 0.641667 | 30% |
 | 10 | 2.100 | 30% | 50% | 0.600000 | 35% |
-:::
 
 > 权威源：MinerConstants.java、MinerSkills.java、MinerSurvival.java、combat/PlayerDamageReduction.java、danger/Danger.java、pressure/MobPressureSystem.java。
 
@@ -358,7 +350,6 @@ facts:
 
 ## 已确认缺陷、绕过面与接口漂移
 
-:::table
 | 级别 | 对象 | 当前事实 |
 | --- | --- | --- |
 | Major | 农夫出售 | 基础价 1 与 floor 后取整叠加，超过 2160 株后仍删物品但每株入账 0 |
@@ -373,7 +364,6 @@ facts:
 | Minor | 农夫 WebUI | 前端漏 L2 出售门和 SELL_LEVEL_TOO_LOW 类型，mock 价格地板 0.25 与服务端 0.01 不一致 |
 | Minor | 配置 | 所有 MinerConstants、FarmerTier、放置上限及收购参数均为硬编码；中央 MiningServerConfig 没有 miner.* 或 farmer.* |
 | Minor | 过期注释 | 农夫经验 2000 系、MinerLevelGate 未接线、MinerNetwork 三包、矿工状态全瞬态等注释均与运行期不符 |
-:::
 
 ## 入包但不应算作玩家功能
 

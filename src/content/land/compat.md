@@ -67,13 +67,11 @@ facts:
 - 领地之外不走这套改判, 假人按世界级默认值处理, 一般是放行。
 - 假玩家永远收不到拒绝提示, 不会刷屏。
 
-:::table
 | 情况 | 结果 |
 | --- | --- |
 | UUID 在这块地的假玩家白名单里 | 无条件放行, 连原始权限都不查 |
 | 假玩家的 UUID 恰好是领地主人, 或已被加进某个权限组 | 保留原始权限, 按正常玩家判 |
 | 其余情况 | 不管它想干什么, 一律只看"假人"这一个开关 |
-:::
 
 ## 给自动化设备授权
 
@@ -93,7 +91,6 @@ facts:
 
 ## 接了哪些第三方 mod
 
-:::table
 | 类别 | Mod | 平台 | 做了什么 |
 | --- | --- | --- | --- |
 | 权限 | fabric-permissions-api | Fabric | 接 LuckPerms 一类的权限系统, 支持布尔节点与数值型 meta |
@@ -113,7 +110,6 @@ facts:
 | 农业 | Harvest with ease | Fabric | 右键收割也要过破坏权限 |
 | 机械 | Create | 两端 | 矿车装置移动到不同领地时检查通过权限 |
 | 数据包兼容 | Storage Drawers / Mekanism / AE2 / Taterzens | 两端 | 靠内置的映射覆盖, 无需代码 |
-:::
 
 > 还有一批 mod 是靠配置里的默认豁免名单直接放行的: Universal Graves、YIGD、Waystones、Universal Shops、Corpse、Gunpowder 等。墓碑类 mod 尤其重要 —— 不豁免的话玩家死在别人领地里就拿不回自己的坟。
 

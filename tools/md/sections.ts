@@ -3,7 +3,7 @@ import type { ContainerDirective } from 'mdast-util-directive'
 import type { Section } from '../../src/content/types.ts'
 import { ContentError, failAt } from './errors.ts'
 import { rawText } from './raw.ts'
-import { parseTableDirective, type ParseContext } from './table.ts'
+import { parseTable, parseTableDirective, type ParseContext } from './table.ts'
 import { parseMenuDirective } from './menu.ts'
 
 /**
@@ -122,12 +122,8 @@ function buildSection(heading: Heading, blocks: RootContent[], ctx: ParseContext
       claimOnce('旁注', node, section.note !== undefined)
       section.note = parseNote(node, ctx)
     } else if (node.type === 'table') {
-      failAt(
-        ctx.file,
-        node,
-        ctx.lineOffset,
-        '裸表格要用 :::table{caption="..."} 容器包起来(DataTable 需要图注与等宽列信息)',
-      )
+      claimOnce('表格', node, section.table !== undefined)
+      section.table = parseTable(node, node, ctx)
     } else {
       failAt(ctx.file, node, ctx.lineOffset, `正文里不支持 ${node.type} 这种块`)
     }

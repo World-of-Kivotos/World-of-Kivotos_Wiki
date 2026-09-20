@@ -23,7 +23,6 @@ facts:
 
 ## 入口、门控与玩家可达性
 
-:::table
 | 子系统 | 启动与玩家入口 | 运行时条件 | 审计状态 |
 | --- | --- | --- | --- |
 | 冠军 | MiningDim 无条件注册 ChampionSystem；MobPressureSystem 经 ChampionSpawnSeam 自然晋升；OP 2 命令 /mchampion summon；WebUI 动作 champion.codex、champion.inspect | 自然生成无配置开关；命令需 OP 2；inspect 需同维度 entityId | 已编译、已装配、玩家可达 |
@@ -31,7 +30,6 @@ facts:
 | 易伤效果 | JobFrameworkSystem 注册 miningdim:vulnerability 与受伤处理器 | 由撕裂、塔罗等来源施加 | 已编译、已装配 |
 | 金钱修补 | MiningDim 无条件注册 EnchantmentSystem；任务附魔书池可发放 | 受 miningdim-money-mending.toml 与账户余额限制 | 已编译、已装配、条件可用 |
 | 武器箱 | MiningDim 无条件注册 CaseOpeningSystem；WebUI 动作 case.state、case.open、case.apply | enabled=true、TaCZ 已加载、反射注册武器包成功三项同时成立 | 已编译、条件可用 |
-:::
 
 > 核心入口见 src/main/java/com/miningdim/MiningDim.java、champion/ChampionSystem.java、caseopening/CaseOpeningSystem.java、combat/CombatSystem.java、enchant/EnchantmentSystem.java 与 job/JobFrameworkSystem.java。
 
@@ -66,7 +64,6 @@ facts:
 - AffixRoller.IMPLEMENTED_AFFIXES 包含 AffixDef 的全部 35 项。抽取依次处理生存、战斗、机动、技能池，在剩余预算内随机贪心选取，最后重新校验点数、词缀数、技能数、互斥和体型资格。
 - 互斥规则：高速与超速二选一；巨大化与缩小化二选一；双倍与四倍二选一；命定之死与反击单元二选一；闪光、战术传送、灵体移动、凯撒、利刃五个传送源全局最多两个。重型护甲排斥全部机动、偏斜和刚毅；巨大化排斥全部机动；缩小化会原子附带一个最低档机动词缀。
 
-:::table
 | 品质 | 成本系数 | 颜色 RGB | 星级上限 |
 | --- | --- | --- | --- |
 | 普通 COMMON | 1.0 | C8C8C8 | 1 至 2 |
@@ -74,7 +71,6 @@ facts:
 | 高级 RARE | 2.5 | 3070E0 | 5 至 6 |
 | 超凡 EPIC | 4.0 | 9B30E0 | 7 至 8 |
 | 闪耀 LEGENDARY | 6.5 | E0B020 | 9 至 10 |
-:::
 
 > 词缀数据入口为 src/main/java/com/miningdim/champion/AffixDef.java、AffixQuality.java、AffixRoller.java 与 PointBudget.java。
 
@@ -155,7 +151,6 @@ facts:
 
 ## 冠军奖励与伤害归属
 
-:::table
 | 项目 | 精确规则 | 接线状态 |
 | --- | --- | --- |
 | CREDIT 总池 | 固定为星级 x 600，即 600 至 6000；先经全局每日货币水龙头 | 已接线 |
@@ -164,7 +159,6 @@ facts:
 | 分配 | 合格玩家按有效伤害权重分配，最后一人吸收整数舍入差 | 已接线 |
 | 支援召唤物 | 不记录贡献；LivingDropsEvent 清空掉落，LivingExperienceDropEvent 清零经验 | 已接线 |
 | TaCZ 枪击 | TaCZ 1.1.8 bullet DamageSource 的 causing entity 为射手，ContributionTracker 能归属到玩家 | 已接线 |
-:::
 
 > ContributionTracker 在 LivingDamageEvent.LOWEST 记录事件名义伤害；高星血池随后取消原版扣血并自行结算，因此高星贡献值是经过前序修正的输出指标，不保证等于血池实际减少量。离线玩家不分奖励。
 
@@ -173,7 +167,6 @@ facts:
 - JAR 内的 16 个旧词缀文件为 adaptable、arctic、dampening、desecrating、enkindling、hasty、infested、knocking、lively、magnetic、molten、paralyzing、plagued、reflective、shielding、wounding。
 - affix.champions.* 只是 MiningDim 自己语言文件里的历史键名，中英文 35 项齐全，不代表运行时调用 Champions。
 
-:::table
 | 对象 | main 中的事实 | 判定 |
 | --- | --- | --- |
 | Champions Java API | 源码中 top.theillusivec4.champions 导入为 0，运行时 ModList.isLoaded("champions") 门控为 0；ChampionSystem 与 AgentSystem 均自行装配 | 当前冠军与特工联动不依赖 Champions |
@@ -181,11 +174,9 @@ facts:
 | 旧 Champions 数据 | JAR 仍含 data/champions/affix_setting 下 16 个旧 JSON；deploy/champions-ranks.toml 不在 JAR | 未被自研 AffixRoller 读取，不算当前 35 词缀 |
 | TaCZ 伤害 | UHMWPE、偏斜、重型护甲的子弹分支按 tacz:bullet* 分类；贡献可从 causing entity 取到射手 | 条件联动 |
 | TaCZ 武器箱 | mods.toml 可选范围 [1.1.8,1.1.9)，build.gradle compileOnly 1.1.8-hotfix | 开箱实际硬门控 TaCZ 与资源导出 |
-:::
 
 ## 武器箱配置、抽取与回执
 
-:::table
 | 项目 | 默认值 | 约束或行为 |
 | --- | --- | --- |
 | 箱体 | founders / 创始武器箱 | CaseCatalog 当前唯一箱体 |
@@ -198,7 +189,6 @@ facts:
 | case.state | 配置、钱包、权重、17 项目录、最新 60 件资产与总数 | 仅回执截 60，数据库查询仍读取全部资产 |
 | case.open | openingId，caseId 可省略为 founders | 返回 replayed、stopIndex、钱包、结果与 40 项转盘 |
 | case.apply | assetId | 返回 applied、assetId、skinId、gunId、displayId |
-:::
 
 > 服务器配置文件为 miningdim-case-opening.toml；实现入口为 caseopening/CaseOpeningConfig.java、CaseWeights.java、CaseRoller.java、CaseOpeningService.java 与 CaseWebUiActions.java。
 
@@ -258,7 +248,6 @@ facts:
 
 ## 金钱修补附魔
 
-:::table
 | 项目 | 真实规则 |
 | --- | --- |
 | ID 与属性 | miningdim:money_mending / 金钱修补；VERY_RARE、BREAKABLE、最高 1 级、附魔成本 25 至 75、宝藏附魔 |
@@ -269,13 +258,11 @@ facts:
 | 材质单价 | 铁 60、金 120、钻石 500、下界合金碎片 4500、下界合金锭 18480；锭价按 4 碎片加 4 金 |
 | 材质数量 | 头盔 5、胸甲 8、护腿 7、靴子 4；镐与斧 3、剑与锄 2、铲 1；下界合金价为对应钻石装备材料总价再加 1 个下界合金锭 |
 | 任务书概率 | 附魔池权重 15/120=12.5%；每日与特殊任务 4% 出附魔书，综合 0.5%；每周与隐藏任务 30%，综合 3.75% |
-:::
 
 > 服务器配置文件为 miningdim-money-mending.toml；源码为 enchant/MoneyMendingEnchantment.java、MoneyMendingHandler.java、RepairPricing.java，以及 quest 奖励池。
 
 ## 明确缺陷、半实现与未接线项
 
-:::table
 | 严重度 | 项目 | 审计结论 | 源码依据 |
 | --- | --- | --- | --- |
 | Major | 剩余点数转化 | PointBudget 文档承诺战斗余点转伤害、机动余点转速度；运行时只有生存余点转生命，另外三池余点被丢弃 | champion/PointBudget.java、ChampionHpConversion.java |
@@ -292,11 +279,9 @@ facts:
 | Minor | 支援召唤物重载 | summonedByAffix 会持久化，但主人 UUID 关联只在内存；服务重启或区块重载后召唤物转为独立活动，仍保留无贡献、无经济掉落标记 | champion/integration/ChampionSummonHandler.java、MiningChampionData.java |
 | Minor | 实时检视 UI | 服务器 champion.inspect 可用，但 CodexPage 正常入口无法取得网络 entityId，只有 mock 流能展示实时目标 | champion/ChampionWebUiActions.java、webui/src/pages/CodexPage.tsx |
 | Minor | 资产列表扩展性 | case.state 只回传最新 60 项，但 ownedAssets 先从 SQLite 读取全部资产再截断 | caseopening/CaseOpeningService.java、CaseWebUiActions.java |
-:::
 
 ## 编译产物、资源与测试证据
 
-:::table
 | 证据 | 结果 | 解释 |
 | --- | --- | --- |
 | 生产 JAR | build/libs/miningdim-1.20.1-1.0.19-all.jar；32,305,962 字节；SHA-256 B4A30F5D6C4A935EB11E8A438C2F58108F55C91611F8ABBDE0D52224F47CD255 | 构建时间晚于 701093b 提交约 47 秒，Manifest 版本 1.0.19 |
@@ -308,6 +293,5 @@ facts:
 | 战斗 GameTest | 1 个文件、5 个 @GameTest 方法 | 覆盖乘法聚合、85% 上限和来源边界 |
 | 金钱修补 GameTest | 1 个文件、9 个 @GameTest 方法 | 另有任务奖励测试覆盖附魔书入口 |
 | 本轮执行 | 未重新运行 Gradle 或 GameTest | 遵守 Wok-Project 只读审计；结论基于源码、注册链、资源与现有生产 JAR |
-:::
 
 > GameTest 源文件位于 src/main/java，测试 class 也随发布 JAR 入包；它们是验证证据，不是玩家玩法入口。完整运行时仍应在带 TaCZ 1.1.8 的专用测试服验证资源反射导出、WebUI 和数据库恢复。

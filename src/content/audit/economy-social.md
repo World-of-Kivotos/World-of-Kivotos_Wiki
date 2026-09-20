@@ -43,7 +43,6 @@ facts:
 - 矿物事件的 settleOreSale 命名容易误导：源码只给钱包入账，不消耗方块掉落物。玩家仍拿到实体物品，同一物品之后还能进入市场或其他玩法。证据：economy/EconomySystem.java:169-231、EconomyService.java:116-134。
 - 连锁挖掘生成的高价值掉落会在同一个 SQLite 事务中逐项结算；普通方块破坏处理器会先记录有效破坏并解除 afkFrozen，再调用结算，所以 AFK 后第一次合法破坏仍可获得钱。
 
-:::table
 | 路径 | 货币变化 | 闸门与含义 |
 | --- | --- | --- |
 | 矿区高价值矿物破坏 | 生成 CREDIT | 仅矿业维度、有效实例区域、未取消的 BreakEvent；钻石、金、下界合金碎片按定价与两层衰减结算。 |
@@ -53,11 +52,9 @@ facts:
 | 跳蚤市场成交 | 买家向卖家转移 CREDIT | 不是 faucet。在线卖家即时入账，离线卖家写 pending_payout 后于登录领取。 |
 | 系统消费 | 销毁 CREDIT 或 AZURE | 市场上架费、任务刷新、婚姻、卡包、开箱、金钱修补、调味台和军械工作费都是生产 sink。 |
 | 管理员调整 | 注入或销毁 | /economy grant 与 admin.economy.set 绕过自然产出循环，属于运维入口并写审计日志。 |
-:::
 
 ## 三、基础价格、衰减和每日上限
 
-:::table
 | 项目 | 默认值 | 计算或时钟 |
 | --- | ---: | --- |
 | 钻石矿物结算价 | 500 CREDIT | 每个掉落单位的 V0；逐矿软上限 64。 |
@@ -69,13 +66,11 @@ facts:
 | 任务 CREDIT faucet 档宽 | 1,000,000 原始 CREDIT | 独立 key=quest_faucet，同样 0.6 衰减和 1% 地板。 |
 | AZURE 日上限 | 30 / 玩家 / UTC 日 | key=azure_faucet，硬截断；精英怪与特工赏金共享。 |
 | AFK 无有效破坏阈值 | 2,400 tick | 约 120 秒；有效移动阈值 4 格。 |
-:::
 
 > 价格与闸门真源分别是 economy/ShopPriceTable.java 和 economy/EconomyConstants.java。每日 economy 计数采用 UTC；市场 P2P 用服务器本地日期，二者并非同一个日界线。
 
 ## 四、生产 sink 与默认收费
 
-:::table
 | 消费点 | 默认收费 | 可达性或备注 |
 | --- | ---: | --- |
 | 矿区难度入场费 | Easy 0 / Medium 0 / Hard 0 CREDIT | 入口实际读取 miningdim-server.toml，默认免费。 |
@@ -93,7 +88,6 @@ facts:
 | 军械装配一次作业 | 5,000 CREDIT | 装配工作台固定基础配置。 |
 | 金钱修补 | 材料总价 / 最大耐久 × 2.0 / 每耐久点 | 每件每秒最多修 10 点；铁维修估值 60，金和钻石复用 ShopPriceTable。 |
 | 市场上架 | 动态且不退 | 公式见市场章节；取消或未售出不返还。 |
-:::
 
 > 这里列的是默认配置，不是不可改常量。来源：config/MiningServerConfig.java:255-292、quest/QuestConfig.java、job/tarot/TarotConfig.java、job/chef/ChefConfig.java、job/munitions/MunitionsConfig.java、enchant/MoneyMendingConfig.java。
 
@@ -170,7 +164,6 @@ facts:
 
 ## 九、市场已确认缺陷与原子性边界
 
-:::table
 | 严重度 | 缺陷 | 实际后果 |
 | --- | --- | --- |
 | Major | 极低总值的挂牌费 round 后为 0，但账本 tryCharge 要求正数。 | 总价 1 或 2、且 20% 基础费四舍五入为 0 的最便宜挂单会以 ILLEGAL_AMOUNT 失败。 |
@@ -178,7 +171,6 @@ facts:
 | Major | 购买事务先提交，之后才交付物品。 | 普通背包失败会改为脚边掉落，但提交后、交付前硬崩溃仍可能让买家付钱却丢物。 |
 | Major | Java 新合同把 market.categories 改成只返回带 leafCount 的分支骨架。 | 真实叶项改由 market.categoryItems 分页返回，但 webui/src/lib/actions.ts 未声明该动作，BrowsePage 仍按旧递归叶结构渲染，分类分支没有可选叶。 |
 | Minor | 握手兼容检查只把“前端声明但服务端缺少”视为不兼容。 | market.categoryItems 是服务端额外动作，只写 console 信息，不会阻止旧前端继续启动，因此合同漂移被放过。 |
-:::
 
 > 证据集中在 market/MarketEngine.java、MarketActions.java、MarketTradeWhitelist.java，以及 webui/src/lib/actions.ts 和 webui/src/pages/market/BrowsePage.tsx。
 
@@ -191,7 +183,6 @@ facts:
 
 ## 十一、任务板配置与刷新周期
 
-:::table
 | 项目 | 默认值 | 说明 |
 | --- | ---: | --- |
 | 开关 | enabled=true | 配置文件 miningdim-quest.toml。 |
@@ -208,7 +199,6 @@ facts:
 | 村民扫描 | 每 40 tick | 为特殊任务事件路径服务。 |
 | 矿区撤离最短停留 | 6,000 tick | 约 5 分钟。 |
 | TaCZ 背包链扫描 | 每 100 tick | 用于发现狙击枪并解锁隐藏任务。 |
-:::
 
 > 日常以 UTC 日期刷新，周常以 UTC 的 ISO 周一刷新。配置与奖励真源：quest/QuestConfig.java、QuestClock.java、QuestRewards.java。
 
@@ -259,7 +249,6 @@ facts:
 - 每次领奖保证抽取一份带权重的材料或装备；附魔书是独立的额外抽取，不替代保证奖励。
 - 日常和特殊的附魔书额外概率均为 4%；周常和隐藏均为 30%。
 
-:::table
 | 奖励池 | 物品、数量与权重 |
 | --- | --- |
 | 日常与特殊：资源 | 煤 8-16 w12；铜锭 6-12 w12；铁锭 4-8 w10；小麦、胡萝卜、马铃薯各 12-24 w10；甜菜根 8-16 w8；南瓜 4-8 w6；西瓜片 8-16 w6。 |
@@ -269,7 +258,6 @@ facts:
 | 附魔书常见 | 经验修补 I w15；金钱修补 I w15。 |
 | 附魔书稀有 | 时运 III w3；抢夺 III w3。 |
 | 附魔书其余 | 效率 IV、耐久 III、精准采集 I、保护 IV、摔落缓冲 IV、爆炸保护 IV、火焰保护 IV、弹射物保护 IV、水下速掘 I、水下呼吸 III、深海探索者 III、锋利 IV、荆棘 III、迅捷潜行 III，均 w6。 |
-:::
 
 > 证据：quest/QuestItemRewards.java。w 表示该条目在对应权重池中的整数权重。
 
@@ -280,7 +268,6 @@ facts:
 - Minor：撤离只看维度切换，命令传送或其他 mod 把玩家移出矿业维度也会算合法撤离。
 - Minor：AFK 判定复用经济系统的进程状态，因此服务器重启会重置这一防刷上下文。
 
-:::table
 | 主题 | 当前实现 |
 | --- | --- |
 | 命令 | /quest list；/quest claim <id>；/quest turnin <id>；/quest refresh daily <1-based slot>；/quest refresh weekly <1-based slot>。 |
@@ -289,7 +276,6 @@ facts:
 | 撤离判定 | 停留达标后，只要从矿业维度切换到任意其他维度且期间未死亡就计数；不要求走官方出口。 |
 | 放置方块防刷 | 进程内 4,096 项 LRU；玩家放置的任务矿只消费一次，但服务器重启会丢失集合。 |
 | 领奖顺序 | 先发 CREDIT，再变更任务链或移除任务，之后抽取物品并放入背包或掉落。 |
-:::
 
 > 证据：quest/QuestService.java:107-113、QuestEventHooks.java:54-68、QuestTaczHooks.java、QuestPlacedBlocks.java。
 
@@ -300,7 +286,6 @@ facts:
 - first_marriage 只写里程碑标志，没有查到任何物品或货币奖励发放。
 - 婚礼的两次扣款与 NBT、世界存档变更不构成统一事务。伴侣扣款失败会返还发起者，但随后硬崩溃或异常仍可能留下部分状态。
 
-:::table
 | 阶段 | 默认规则 | 入口或状态 |
 | --- | --- | --- |
 | 求婚 | 不能对自己；每人只有一个 outgoing，新求婚覆盖旧 outgoing；提案不按时间过期。 | /marriage propose <target> 或 marriage.propose。 |
@@ -310,7 +295,6 @@ facts:
 | 结婚 | 双方在线、未婚、无再婚冷却、各持一枚主背包订婚戒、提案已接受。 | /marriage wed <partner> 或 marriage.wed。 |
 | 婚礼收费 | 总价 20,000 CREDIT，发起者 ceil(total/2)，伴侣 floor(total/2)。 | 两次钱包扣款，不是一个跨玩家 SQL 事务。 |
 | 退出清理 | 玩家下线时清除所有涉及该玩家的内存提案。 | 重启也会清空全部提案。 |
-:::
 
 ## 十七、共享背包与婚戒传送
 
@@ -318,7 +302,6 @@ facts:
 - 传送冷却只存在内存中，服务器重启会清除。
 - 背包距离、槽位、读条与冷却配置来自 miningdim-server.toml；实现见 marriage/MarriageBackpackContainer.java、SharedBackpackWhitelist.java 和 MarriageTeleport.java。
 
-:::table
 | 能力 | 精确规则 |
 | --- | --- |
 | 成长等级 | 服务器运行日达到 0、3、7、14、30 日时升到 1-5 级。一天按 1,728,000 server gameTime tick。 |
@@ -330,7 +313,6 @@ facts:
 | 传送方式 | 主手婚戒、非潜行右键；配偶在线且同维度，双方均不得处于矿业维度。 |
 | 传送读条 | 等级 1-5 分别为 8、7、6、5、4 秒；双方须保持距起点 0.35 格内、不潜行、不受伤、婚姻仍有效。 |
 | 传送冷却 | 等级 1-5 分别为 300、240、180、120、60 秒；只施加给发起者。 |
-:::
 
 ## 十八、离婚、财产返还与已确认缺陷
 
@@ -367,7 +349,6 @@ facts:
 - 幸存实体保留自身属性和效果，被吸收实体直接 discard；名称显示为本地化实体名加 xN。
 - 所有维度都会扫描，但候选先按同一个 ChunkPos 分桶。即使两只动物跨区块边界的实际距离小于半径，也永远不会互相合并。
 
-:::table
 | 配置 | 默认值 | 实际行为 |
 | --- | ---: | --- |
 | enabled | true | 启用新的扫描合并。 |
@@ -382,7 +363,6 @@ facts:
 | 排除 | 命名、驯服、Boss | 均默认 true；配置黑名单默认为空。 |
 | 拴绳策略 | SPLIT_ONE | 默认剥离一个个体后给它上绳。 |
 | 拆分宽限 | 600 tick | 拆出的实体暂时不能再次合并。 |
-:::
 
 > 真源：stacking/StackingConfig.java、StackingSystem.java、StackMerge.java、StackMatchKey.java。
 
@@ -393,7 +373,6 @@ facts:
 - Minor：enabled=false 只阻止新的扫描合并，既有堆的死亡结算、剪毛、挤奶、繁殖和拆分仍继续工作。
 - 非白名单实体若携带陈旧 StackSize 数据，会在 EntityJoinLevelEvent 被清洗。系统无聊天命令、无 WebUI action。
 
-:::table
 | 场景 | 整堆行为 |
 | --- | --- |
 | INSTANT_ALL 玩家击杀 | 保留原版当前个体的一次掉落，再为 N-1 个体独立滚掉落；multiplyXp=true 时追加 N-1 份经验。 |
@@ -405,7 +384,6 @@ facts:
 | 鸡蛋 | 按 N 倍吞吐调整产蛋计时。 |
 | 喂食繁殖 | 整堆一次只生成一个幼崽，并设置 6,000 tick 繁殖冷却。 |
 | 手动拆分 | 潜行空手交互拆一个；默认用拴绳也拆一个并拴上。新实体只复制类型、年龄和羊变体。 |
-:::
 
 > 堆大小和宽限写在实体 Forge persistent data：miningdim:StackSize、miningdim:StackNoMergeUntil；羊另有 miningdim:ShearRegrowPending。
 
@@ -510,7 +488,6 @@ facts:
 - Claude 运维记忆记录 2026-08-17 曾把 React 平板部署到 https://home.shinoyuki.cn:8443/ui/。这只能证明一次外部部署，不是 main JAR 的构建证据；源码默认 URL 尚未改，新客户端若不手工配置仍会访问 localhost。
 - webui/src/lib/actions.ts 当前列 69 个服务器动作和 6 个本地动作，漏掉服务端新增的 market.categoryItems。pnpm check:contract 的 11 项检查全部通过，但该脚本没有校验 Java 与 TypeScript 的全量动作集合，所以未捕获这次漂移。
 
-:::table
 | 项目 | 当前实现 |
 | --- | --- |
 | 打开入口 | 默认按键 G；/miningdim-webui-dev 打开通用平板；/wokcase 打开内置开箱页。 |
@@ -520,13 +497,11 @@ facts:
 | 客户端本地 action | client.i18n；client.playCaseSound；client.closePanel；client.textFocus；client.display.get；client.display.set。它们不走服务器握手。 |
 | 前端路由 | /、/market、/market/sell、/market/mine、/market/history、/market/inbox、/shop、/jobs、/jobs/:id、/mining、/quests、/codex、/marriage、/case、/settings、/admin、/components。 |
 | 浏览器基线 | 外部前端为 React 19、Vite 7、Tailwind CSS 4；MCEF 对应 Chromium 116 能力基线。 |
-:::
 
 > 证据：client/webui/WebUiClient.java、WebUiBridge.java、WebUiScreen.java、config/MiningClientConfig.java、webui/src/lib/actions.ts、build.gradle。
 
 ## 二十八、死代码、测试代码与外部边界总表
 
-:::table
 | 对象 | 物理状态 | 审计结论 |
 | --- | --- | --- |
 | economy reset/reentry 守卫 | 类和 GameTest 随 JAR 入包。 | 没有生产调用，不应宣传每日 8 次重置扣费或重入冷却已生效。 |
@@ -536,11 +511,9 @@ facts:
 | TaCZ | 可选 BOTH 依赖。 | 隐藏狙击链和枪械事件依赖它；无 TaCZ 时部分常规任务仍会错误抽到。 |
 | React 平板 | 位于仓库 webui/src，根 Gradle 不打 dist。 | 外部部署资产；JAR 只有桥接 Java 和独立 case-opening.html。 |
 | WOK-ChestShop | 独立仓库、独立构建。 | 不属于 miningdim 主 JAR；shop 页当前 NOT_WIRED。 |
-:::
 
 ## 二十九、缺陷优先级汇总
 
-:::table
 | 优先级 | 问题 | 建议验收点 |
 | --- | --- | --- |
 | P0 数据一致性 | 市场上架跨钱包、数据库、背包三段非原子；购买提交后才交货；任务领奖跨 SQLite 与 SavedData 非原子。 | 加入崩溃恢复凭证，覆盖每个提交窗口的重启测试。 |
@@ -551,7 +524,6 @@ facts:
 | P2 堆叠 | 掉落“批处理”没有合并相同 ItemStack；跨区块半径失效。 | 聚合相同物品后再生成实体；扫描候选覆盖相邻区块。 |
 | P2 客户端 | 默认 URL 保持 localhost，与记录的公网部署不一致。 | 发布配置、服务器下发或安装文档必须明确唯一真源。 |
 | P2 时间口径 | UTC faucet、服务器本地市场日、server gameTime 婚姻日并存。 | 所有 UI 明示各自日界线，避免玩家误判额度与冷却。 |
-:::
 
 ## 三十、关键源码索引
 
